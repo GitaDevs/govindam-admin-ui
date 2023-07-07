@@ -1,67 +1,93 @@
 'use client'
-import React from 'react';
-import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
+import React, { useState } from 'react';
+import {
+  UserOutlined,
+  CalendarOutlined,
+  ShoppingCartOutlined,
+  WarningOutlined
+} from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import { Layout, Menu, theme, Grid, Drawer } from 'antd';
+import { isLargeScreen } from '@/app/helpers/miscellaneous';
+import { ScreenSize } from '@/app/types/screen';
+import styles from "./style.module.css";
 
 const { Header, Content, Footer, Sider } = Layout;
+const { useBreakpoint } = Grid;
+
+type MenuItem = Required<MenuProps>['items'][number];
+
+function getItem(
+  label: React.ReactNode,
+  key: React.Key,
+  icon?: React.ReactNode,
+  children?: MenuItem[],
+): MenuItem {
+  return {
+    key,
+    icon,
+    children,
+    label,
+  } as MenuItem;
+}
+
+const items: MenuItem[] = [
+  getItem('Served Order', '1', <ShoppingCartOutlined />),
+  getItem('Menu Calendar', '2', <CalendarOutlined />),
+  getItem('Critical Inventory', '3', <WarningOutlined />),
+  getItem('Profile', '4', <UserOutlined />),
+];
 
 const items1: MenuProps['items'] = ['1', '2', '3'].map((key) => ({
   key,
   label: `nav ${key}`,
 }));
 
-const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
-  (icon, index) => {
-    const key = String(index + 1);
-
-    return {
-      key: `sub${key}`,
-      icon: React.createElement(icon),
-      label: `subnav ${key}`,
-
-      children: new Array(4).fill(null).map((_, j) => {
-        const subKey = index * 4 + j + 1;
-        return {
-          key: subKey,
-          label: `option${subKey}`,
-        };
-      }),
-    };
-  },
-);
-
 const CookDashboard: React.FC = () => {
+  const [collapsed, setCollapsed] = useState(false);
+  const screens = useBreakpoint();
+
   const {
     token: { colorBgContainer },
   } = theme.useToken();
 
+  const getSidebar = () => {
+    const isLarge = isLargeScreen(screens as ScreenSize);
+
+    if(isLargeScreen(screens as ScreenSize)) {
+      return (
+        <Sider collapsible={false} collapsed={false}>
+          <div className="demo-logo-vertical" />
+          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
+        </Sider> 
+      );
+    } else {
+      return (
+        <Sider style={{ position:'absolute', height: '100%'}} zeroWidthTriggerStyle={{top: '-52px'}} collapsedWidth={0} collapsible={true} collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+          <div className="demo-logo-vertical" />
+          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
+        </Sider>      
+      )
+    }
+  }
+
   return (
-    <Layout>
-      <Header style={{ display: 'flex', alignItems: 'center' }}>
+    <Layout style={{ minHeight: '100vh' }}>
+      <Header style={{ display: 'flex', alignItems: 'flex-end' }}>
         <div className="demo-logo" />
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']} items={items1} />
+        {/* <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']} items={items1} /> */}
       </Header>
-      <Content style={{ padding: '0 50px' }}>
-        <Breadcrumb style={{ margin: '16px 0' }}>
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>List</Breadcrumb.Item>
-          <Breadcrumb.Item>App</Breadcrumb.Item>
-        </Breadcrumb>
-        <Layout style={{ padding: '24px 0', background: colorBgContainer }}>
-          <Sider style={{ background: colorBgContainer }} width={200}>
-            <Menu
-              mode="inline"
-              defaultSelectedKeys={['1']}
-              defaultOpenKeys={['sub1']}
-              style={{ height: '100%' }}
-              items={items2}
-            />
-          </Sider>
-          <Content style={{ padding: '0 24px', minHeight: 280 }}>Content</Content>
+      <Layout>
+        { getSidebar() }
+        <Layout>
+          <Header style={{ padding: 0, background: colorBgContainer }} />
+          <Content>
+            <div style={{ padding: 24, background: colorBgContainer }}>
+              Hare Krishna
+            </div>
+          </Content>
         </Layout>
-      </Content>
-      <Footer style={{ textAlign: 'center' }}>Ant Design ©2023 Created by Ant UED</Footer>
+      </Layout>
     </Layout>
   );
 };
