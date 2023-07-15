@@ -6,7 +6,7 @@ import { ScreenSize } from '@/app/types/screen';
 import { MenuItem, SidebarProps } from '../types/sideBar';
 
 const { useBreakpoint } = Grid;
-const { Header, Content, Sider } = Layout;
+const { Sider } = Layout;
 
 export function getItem(
   label: React.ReactNode,

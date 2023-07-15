@@ -1,4 +1,4 @@
-// import './globals.css'
+import './globals.css'
 import { Inter } from 'next/font/google'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -15,6 +15,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <title>Govindam App</title>
+      </head>
       <body style={{margin:'0px'}}>
         {children}
       </body>
