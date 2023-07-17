@@ -7,7 +7,7 @@ import {
   ShoppingCartOutlined,
   WarningOutlined
 } from '@ant-design/icons';
-import SideBar, { getItem } from '@/app/components/sideBar';
+import SideBar, { getItem } from '@/app/components/sidebar/sideBar';
 import { MenuItem } from '@/app/types/sideBar';
 
 const { Header, Content } = Layout;

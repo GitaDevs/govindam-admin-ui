@@ -1,11 +1,48 @@
+/* margins */
+.marginBottom10 {
+  margin-bottom: 50px
+}
+
+.marginTop20 {
+  margin-top: 20px
+}
+
+.margin10 {
+  margin: 10px;
+}
+/* margins */
+
+
+/* padding */
 .padding50 {
   padding: 50px;
+}
+
+.padding10 {
+  padding: 5px;
 }
 
 .paddingBottom10 {
   padding-bottom: 50px
 }
 
-.marginBottom10 {
-  margin-bottom: 50px
+@media only screen and (min-width: 768px) {
+  .paddinghDesktop50 {
+    padding: 50px;
+  }
 }
+
+@media only screen and (max-width: 768px) {
+  .paddinghMobile10 {
+    padding: 10px;
+  }
+}
+/* padding */
+
+/* width */
+@media only screen and (min-width: 768px) {
+  .widthDesktop50 {
+    width: 50%;
+  }
+}
+/* width */

@@ -1,5 +1,5 @@
 'use client'
-import { Col, Row, Space, Tabs } from 'antd';
+import { Tabs } from 'antd';
 import React from 'react';
 import style from "./style.module.css";
 import UpcomingMeals from './upcomingMeals';
@@ -11,27 +11,24 @@ const mealComponents = [UpcomingMeals, HealthOrders]
 const CookDashboardHome: React.FC = () => {
 
   return(
-    <Space className={style.padding50}>
-      <Row>
-        <Col>
-          <Tabs
-            defaultActiveKey="1"
-            type="card"
-            size={"large"}
-            items={tabs.map((name, i) => {
-              const id = String(i + 1);
-              const Component = mealComponents[i];
+    <div className={`${style.paddinghDesktop50} ${style.paddinghMobile10} ${style.widthDesktop50}`}>
+      <Tabs
+        centered={true}
+        defaultActiveKey="1"
+        type="card"
+        size={"large"}
+        items={tabs.map((name, i) => {
+          const id = String(i + 1);
+          const Component = mealComponents[i];
 
-              return {
-                label: name,
-                key: id,
-                children: <Component />
-              };
-            })}
-          />        
-        </Col>
-      </Row>
-    </Space>
+          return {
+            label: name,
+            key: id,
+            children: <Component />
+          };
+        })}
+      />
+    </div>
   )
 };
 

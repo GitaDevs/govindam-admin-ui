@@ -8,7 +8,7 @@ import {
   WarningOutlined,
   DashboardOutlined
 } from '@ant-design/icons';
-import SideBar, { getItem } from '@/app/components/sideBar';
+import SideBar, { getItem } from '@/app/components/sidebar/sideBar';
 import { MenuItem } from '@/app/types/sideBar';
 
 const items: MenuItem[] = [
@@ -20,19 +20,14 @@ const items: MenuItem[] = [
 ];
 
 function CookDashboardLayout({ children }: { children: React.ReactNode }) {
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
 
   return(
     <Layout>
       <SideBar menuItems={items} />
 
-      <Space className='centerAlignTop w-100'>
-        <Layout>
-            { children }
-        </Layout>
-      </Space>
+      <div className='centerAlignTop w-100'>
+        { children }
+      </div>
     </Layout>
   )
 };
