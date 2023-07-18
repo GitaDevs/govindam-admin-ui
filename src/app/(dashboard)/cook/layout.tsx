@@ -8,7 +8,7 @@ import {
   WarningOutlined,
   DashboardOutlined
 } from '@ant-design/icons';
-import SideBar, { getItem } from '@/app/components/sidebar/sideBar';
+import SideBar, { getItem } from '@/app/components/sidebar';
 import { MenuItem } from '@/app/types/sideBar';
 
 const items: MenuItem[] = [
