@@ -15,7 +15,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <head>
+        <title>Govindam App</title>
+      </head>
+      <body style={{margin:'0px'}}>
+        {children}
+      </body>
     </html>
   )
 }

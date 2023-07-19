@@ -1,11 +1,17 @@
-export const initialState = {
+import { AppInitialState } from "../types/app";
+
+export const initialState: AppInitialState = {
   snackbar: {
     open: false,
-    message: null,
-    type: null  
+    message: "",
+    type: ""  
   },
   loading: false,
   sideDrawerOpen: false,
+  modal: {
+    open: false,
+    data: {}
+  },
 };
 
 export const previousState = {};

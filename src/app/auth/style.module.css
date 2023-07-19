@@ -1,0 +1,23 @@
+.main {
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-image: url("");
+}
+
+@media only screen and (min-width: 768px) {
+  .loginForm {
+    margin: 0 14em;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .loginForm {
+    margin: 0 3em;
+  }
+}
+
+.appHeading {
+  text-align: center;
+  color: #99d16f
+}
