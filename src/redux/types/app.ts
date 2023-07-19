@@ -1,3 +1,5 @@
+import { ModalProps } from "antd";
+
 export interface Snackbar {
   open: boolean;
   message: string;
@@ -9,15 +11,7 @@ export interface ModalInterface {
   data?: ModalData;
 }
 
-export interface ModalData {
-  title?: string;
-  onOK?: () => void;
-  onCancel?: () => void;
-  onClick?: () => void;
-  content?: React.ReactNode;
-  okButtonText?: string;
-  cancelButtonText?: string;
-}
+export type ModalData = Omit<ModalProps, "open"> & { content?: React.ReactNode};
 
 export interface AppInitialState {
   snackbar: Snackbar;

@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Layout, Menu, Grid, theme, MenuProps } from 'antd';
 import { isLargeScreen } from '@/app/helpers/miscellaneous';
 import { ScreenSize } from '@/app/types/screen';
@@ -25,7 +25,7 @@ export function getItem(
 
 const SideBar: React.FC<SidebarProps> = ({ menuItems }) => {
   const screens = useBreakpoint();
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
 
   const getSidebar = () => {
     if(isLargeScreen(screens as ScreenSize)) {
