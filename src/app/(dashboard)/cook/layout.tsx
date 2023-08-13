@@ -8,22 +8,21 @@ import {
   WarningOutlined,
   DashboardOutlined
 } from '@ant-design/icons';
-import SideBar, { getItem } from '@/app/components/sidebar';
-import { MenuItem } from '@/app/types/sideBar';
+import SideBar from '@/app/components/sidebar';
 
-const items: MenuItem[] = [
-  getItem('Home', '1', <DashboardOutlined />),
-  getItem('Served Order', '2', <ShoppingCartOutlined />),
-  getItem('Menu Calendar', '3', <CalendarOutlined />),
-  getItem('Critical Inventory', '4', <WarningOutlined />),
-  getItem('Profile', '5', <UserOutlined />),
+const menuItems = [
+  { key: '1', label: 'Home', icon: <DashboardOutlined />, href: "/cook/home" },
+  { key: '2', label: 'Served Order', icon: <ShoppingCartOutlined />, href: "/cook/servedOrders" },
+  { key: '3', label: 'Menu Calendar', icon: <CalendarOutlined />, href: "/cook/calendar" },
+  { key: '4', label: 'Critical Inventory', icon: <WarningOutlined />, href: "/cook/critical" },
+  { key: '5', label: 'Profile', icon: <UserOutlined />, href: "/cook/profile" },
 ];
 
 function CookDashboardLayout({ children }: { children: React.ReactNode }) {
 
   return(
     <Layout>
-      <SideBar menuItems={items} />
+      <SideBar menuItems={menuItems} />
 
       <div className='centerAlignTop w-100'>
         { children }

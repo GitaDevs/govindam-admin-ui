@@ -1,0 +1,10 @@
+.inputWidth {
+  width: 100%;
+}
+
+@media only screen and (max-width: 768px) {
+  .inputWidth {
+    width: 100%;
+    margin-top: 50px;
+  }
+}

@@ -5,6 +5,7 @@ import CustomModal from '../components/modal';
 import { Provider } from 'react-redux';
 import { persistor, store } from '../../redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import Toast from '../components/toast';
 
 const { Header } = Layout;
 
@@ -16,6 +17,7 @@ export default function DashboardLayout ({
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <CustomModal />
+        <Toast />
         <Layout style={{ minHeight: '100vh' }}>
           <Header style={{ display: 'flex', alignItems: 'flex-end' }}>
             <div className="demo-logo" />
