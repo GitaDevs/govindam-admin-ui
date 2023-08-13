@@ -1,12 +1,14 @@
 'use client'
 
-import { useAppSelector } from "@/redux/hooks";
+import { updateToast } from "@/redux/actions/app";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { selectToastData } from "@/redux/selectors/app";
 import { ToastInterface } from "@/redux/types/app";
 import { notification } from "antd";
 import { useEffect } from "react";
 
 const Toast: React.FC = () => {
+  const dispatch = useAppDispatch();
   const toastData: ToastInterface = useAppSelector(selectToastData());
 
   const [api, contextHolder] = notification.useNotification();
@@ -17,6 +19,9 @@ const Toast: React.FC = () => {
         key: toastData.message || "key",
         message: toastData.message,
         description: toastData.description || "",
+        onClose: () => {
+          dispatch(updateToast({ open: false }))
+        }
       });
     }
   }, [toastData])
