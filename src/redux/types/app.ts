@@ -18,7 +18,7 @@ export interface AppInitialState {
   loading: boolean;
   sideDrawerOpen: boolean;
   modal: ModalInterface;
-  toast: ToastInterface
+  toast: ToastInterface;
 }
 
 export interface ToastInterface {

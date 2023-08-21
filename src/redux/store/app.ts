@@ -16,7 +16,7 @@ export const initialState: AppInitialState = {
     open: false,
     message: null,
     type: null
-  }
+  },
 };
 
 export const previousState = {};

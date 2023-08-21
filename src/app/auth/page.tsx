@@ -1,8 +1,13 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Form, Input, Row, Col, Space } from 'antd';
 import styles from './style.module.css';
 import bgV from '../../../public/bg_vertical.jpg';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { UserParams, authenticateUser, fetchUserRole } from '@/redux/thunk/user';
+import { selectUserRoleType, selectUserToken } from '@/redux/selectors/user';
+import { useRouter } from 'next/navigation';
+import { COOK, CUSTOMER } from '@/redux/types/user';
 
 const style = {
   backgroundImage: `url('${bgV.src}')`,
@@ -17,12 +22,32 @@ enum LoginType {
 }
 
 const Auth: React.FC = (props) => {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
   const [loginType, setLoginType] = useState<LoginType>(LoginType.SIGN_IN);
+  const userToken = useAppSelector(selectUserToken());
+  const userRoleType = useAppSelector(selectUserRoleType());
+
+  useEffect(() => {
+    if(!userToken || userRoleType) return;
+
+    dispatch(fetchUserRole());
+  }, [userToken])
+
+  useEffect(() => {
+    if(!userToken || !userRoleType) return;
+
+    if(userRoleType === COOK) {
+      router.push("/cook/home");
+    } else if(userRoleType === CUSTOMER) {
+      router.push("/cook/home");
+    }
+  }, [userToken, userRoleType]);
 
   const onFinish = (values: any) => {
-    console.log('Success:', values);
+    dispatch(authenticateUser(values as UserParams));
   };
-  
+
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
   };
@@ -55,7 +80,7 @@ const Auth: React.FC = (props) => {
             >
               <Form.Item
                 label=""
-                name="email"
+                name="identifier"
                 rules={[{ required: true, message: 'Please input your emailId!' }]}
               >
                 <Input type='email' size='large' placeholder='Email'/>

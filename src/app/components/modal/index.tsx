@@ -10,22 +10,16 @@ const CustomModal: React.FC = () => {
   const modalOpen: boolean = useAppSelector(isModalOpen());
   const modalData: ModalData = useAppSelector(selectModalData()) || {};
 
-  if(!modalData.onOk) {
-    modalData.onOk = () => {
-      dispatch(updateModal({ open: false }));
-    }
-  }
-
-  if(!modalData.onCancel) {
-    modalData.onCancel = () => {
-      dispatch(updateModal({ open: false }));
-    }
+  const closeDefault = (e: React.MouseEvent<HTMLButtonElement>) => {
+    dispatch(updateModal({ open: false }));
   }
 
   return (
     <Modal
       open={modalOpen}
       { ...modalData }
+      onOk={modalData.onOk || closeDefault}
+      onCancel={modalData.onCancel || closeDefault}
     >
       { modalData.content || null }
     </Modal>
