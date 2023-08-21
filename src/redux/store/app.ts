@@ -12,6 +12,11 @@ export const initialState: AppInitialState = {
     open: false,
     data: {}
   },
+  toast: {
+    open: false,
+    message: null,
+    type: null
+  }
 };
 
 export const previousState = {};

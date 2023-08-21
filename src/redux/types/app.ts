@@ -18,4 +18,12 @@ export interface AppInitialState {
   loading: boolean;
   sideDrawerOpen: boolean;
   modal: ModalInterface;
+  toast: ToastInterface
+}
+
+export interface ToastInterface {
+  open: boolean;
+  message?: string | null;
+  description?: string | null;
+  type?: "success" | "error" | "warning" | "info" | null
 }

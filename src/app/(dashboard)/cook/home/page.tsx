@@ -1,7 +1,6 @@
 'use client'
 import { Tabs } from 'antd';
 import React from 'react';
-import style from "./style.module.css";
 import UpcomingMeals from './upcomingMeals';
 import HealthOrders from './healthOrders';
 
@@ -11,7 +10,7 @@ const mealComponents = [UpcomingMeals, HealthOrders]
 const CookDashboardHome: React.FC = () => {
 
   return(
-    <div className={`${style.paddinghDesktop50} ${style.paddinghMobile10} ${style.widthDesktop50}`}>
+    <div className={`paddinghDesktop50 paddinghMobile10 widthDesktop50`}>
       <Tabs
         centered={true}
         defaultActiveKey="1"
