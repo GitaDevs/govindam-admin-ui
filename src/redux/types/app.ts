@@ -11,7 +11,7 @@ export interface ModalInterface {
   data?: ModalData;
 }
 
-export type ModalData = Omit<ModalProps, "open"> & { content?: React.ReactNode};
+export type ModalData = Omit<ModalProps, "open"> & { content?: React.ReactNode, renderData?: Object };
 
 export interface AppInitialState {
   snackbar: Snackbar;

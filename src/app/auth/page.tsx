@@ -4,10 +4,11 @@ import { Button, Form, Input, Row, Col, Space } from 'antd';
 import styles from './style.module.css';
 import bgV from '../../../public/bg_vertical.jpg';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { UserParams, authenticateUser, fetchUserRole } from '@/redux/thunk/user';
+import { UserParams, UserRegisterParams, authenticateUser, fetchUserRole, registerNewUser } from '@/redux/thunk/user';
 import { selectUserRoleType, selectUserToken } from '@/redux/selectors/user';
 import { useRouter } from 'next/navigation';
 import { COOK, CUSTOMER } from '@/redux/types/user';
+import { updateToast } from '@/redux/actions/app';
 
 const style = {
   backgroundImage: `url('${bgV.src}')`,
@@ -45,7 +46,23 @@ const Auth: React.FC = (props) => {
   }, [userToken, userRoleType]);
 
   const onFinish = (values: any) => {
-    dispatch(authenticateUser(values as UserParams));
+    if(loginType === LoginType.SIGN_IN) {
+      dispatch(authenticateUser(values as UserParams));
+    } else {
+      if(values.password !== values.confirmPassword) {
+        dispatch(updateToast({ type: 'error', message: 'Password not matched!', open: true}))
+        return;
+      }
+
+      const user: UserRegisterParams = {
+        email: values.identifier,
+        username: values.username,
+        password: values.password,
+        name: values.username
+      }
+
+      dispatch(registerNewUser(user as UserRegisterParams));
+    }
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -78,6 +95,19 @@ const Auth: React.FC = (props) => {
               onFinishFailed={onFinishFailed}
               autoComplete="on"
             >
+
+              {
+                loginType === LoginType.SIGN_UP && (
+                  <Form.Item
+                  label=""
+                  name="username"
+                  rules={[{ required: true, message: 'Please input your username!' }]}
+                  >
+                    <Input type="text" size="large" placeholder='Username' />
+                  </Form.Item>
+                )
+              }
+
               <Form.Item
                 label=""
                 name="identifier"
@@ -102,7 +132,7 @@ const Auth: React.FC = (props) => {
                   rules={[{ required: true, message: 'Please input your confirm password!' }]}
                   >
                     <Input.Password type="password" size="large" placeholder='Confirm Password' />
-                  </Form.Item>                  
+                  </Form.Item>
                 )
               }
 

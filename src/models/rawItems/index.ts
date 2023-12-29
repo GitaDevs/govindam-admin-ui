@@ -1,0 +1,3 @@
+class RawItems {
+  constructor() {}
+}

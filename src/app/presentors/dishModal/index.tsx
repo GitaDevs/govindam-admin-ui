@@ -1,8 +1,8 @@
 'use client'
-
+import { Dish } from "@/redux/types/menu";
 import { Button, Collapse, CollapseProps, Descriptions, List } from "antd";
 
-const DishModal: React.FC = () => {
+const DishModal: React.FC<{ dishes: Dish[] }> = ({ dishes }) => {
 
   const collapsableMenu = () => {
     const items: CollapseProps['items'] = [
@@ -30,60 +30,64 @@ const DishModal: React.FC = () => {
 
   const getMealVideoLink = () => (
     <>
-      <Button type="link">
-        Link
-      </Button>
-    </>
+      <Descriptions layout="vertical" bordered size="small" className={`marginTop10`}>
+        <Descriptions.Item label={`Dishes`} labelStyle={{ fontWeight: 'bold'}}>
+          <List
+            size="small"
+            dataSource={dishes}
+            renderItem={dish => (
+              <List.Item>
+                <span>
+                  {dish.name}
+                </span>
+                <span className="floatRight">
+                  <Button type="link" target="_blank" href={dish.videoLink}>
+                    Link
+                  </Button>
+                </span>
+              </List.Item>
+            )}
+          >            
+          </List>
+        </Descriptions.Item>    
+      </Descriptions>    
+    </>    
   )
 
   const getMealTextInstruction = () => (
     <>
-      A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a welcome guest in many households across the world.
+      {
+        dishes.map((dish, index) => (
+          <Descriptions key={index} layout="vertical" bordered size="small" className={`marginTop10`}>
+            <Descriptions.Item key={index} label={`${dish.name}`} labelStyle={{ fontWeight: 'bold'}}>
+              {dish.textInstructions}
+            </Descriptions.Item>
+          </Descriptions>
+        ))
+      }
     </>
   )
 
   const getDynamicIngredientsTable = () => (
-    <>
-      <Descriptions layout="vertical" bordered size="small" className={`marginTop10`}>
-        <Descriptions.Item label="1). Samak Rice Kheer" labelStyle={{ fontWeight: 'bold'}}>
-          <List
-            size={'small'}
-            dataSource={['Samak Rice', 'Milk']}
-            renderItem={item => (
-            <List.Item>
-              <span>
-                {item}
-              </span>
-              <span className={`floatRight`}>
-                {'2 Cups'}
-              </span>
-            </List.Item>
-            )}
-          >
-          </List>
-        </Descriptions.Item>
-      </Descriptions>
-
-      <Descriptions layout="vertical" bordered size="small" className={`marginTop10`}>
-        <Descriptions.Item label="2). Kuttu Atta Puri" labelStyle={{ fontWeight: 'bold'}}>
-          <List
-            size={'small'}
-            dataSource={['Kuttu Atta', 'Oil']}
-            renderItem={item => (
-            <List.Item>
-              <span>
-                {item}
-              </span>
-              <span className={`floatRight`}>
-                {'2 Cups'}
-              </span>              
-            </List.Item>
-            )}
-          >
-          </List>          
-        </Descriptions.Item>
-      </Descriptions>
-    </>
+    <Descriptions layout="vertical" bordered size="small" className={`marginTop10`}>
+      <Descriptions.Item label={`Dishes`} labelStyle={{ fontWeight: 'bold'}}>
+        <List
+          size={'small'}
+          dataSource={dishes}
+          renderItem={dish => (
+          <List.Item>
+            <span>
+              {dish.name}
+            </span>
+            <span className={`floatRight`}>
+              {`${dish?.servingSize || 0} ${dish?.unit?.name}`}
+            </span>
+          </List.Item>
+          )}
+        >
+        </List>
+      </Descriptions.Item>
+    </Descriptions>
   )
 
   return collapsableMenu();

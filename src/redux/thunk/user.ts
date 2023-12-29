@@ -12,6 +12,13 @@ export interface UserParams {
   password: string | null;
 }
 
+export interface UserRegisterParams {
+  name: string;
+  email: string;
+  password: string;
+  username: string;
+}
+
 const apiEndPoint = new ApiEndpoints(process.env.apiHost || "", null);
 
 export const authenticateUser = (userParams: UserParams) => {
@@ -21,8 +28,6 @@ export const authenticateUser = (userParams: UserParams) => {
     const { response } = await apiEndPoint.post(API_ENDPOINTS.USER_AUTH, userParams);
 
     if(response && response?.data.user) {
-      console.log(response.data)
-
       // save success
       const jwt = response.data.jwt;
 
@@ -45,15 +50,35 @@ export const fetchUserRole = () => {
 
     const { response } = await apiEndPoint.get(API_ENDPOINTS.USER_ME, { populate: "*" });
 
-    console.log("====", response)
     if(response && response.data) {
-
       const userRole = response.data.role as UserRole;
       dispatch(setUerRole(userRole));
     } else {
       dispatch(updateToast({ type: 'error', message: 'Unable to get user role!', open: true}))
     }
 
+    dispatch(userLoading({ loading : false }));
+  }
+}
+
+export const registerNewUser = (user: UserRegisterParams) => {
+  return async (dispatch: Dispatch<AnyAction>, getState: () => RootState) => {
     dispatch(userLoading({ loading : true }));
+
+    const { response } = await apiEndPoint.post(API_ENDPOINTS.USER_REGISTER, user);
+
+    if(response && response.data) {
+      const jwt = response.data.jwt;
+      const userRole = response.data?.user?.role as UserRole;
+
+      dispatch(setUserInfo({ ...response.data.user, jwt }));
+      dispatch(setUerRole(userRole));
+      dispatch(updateToast({ type: 'success', message: 'User Registered!', open: true}))
+    } else {
+      dispatch(updateToast({ type: 'error', message: 'Unable to register user!', open: true}))
+    }
+
+    dispatch(userLoading({ loading : false }));
+
   }
 }

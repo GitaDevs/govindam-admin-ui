@@ -1,13 +1,20 @@
 'use client'
 import { Tabs } from 'antd';
-import React from 'react';
+import React, { useEffect } from 'react';
 import UpcomingMeals from './upcomingMeals';
 import HealthOrders from './healthOrders';
+import { useAppDispatch } from '@/redux/hooks';
+import { fetchMenuAndMeals } from '@/redux/thunk/menu';
 
 const tabs = ["Upcoming Meals", "Health Orders"]
 const mealComponents = [UpcomingMeals, HealthOrders]
 
 const CookDashboardHome: React.FC = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchMenuAndMeals("upcoming"));
+  }, []);
 
   return(
     <div className={`paddinghDesktop50 paddinghMobile10 widthDesktop50`}>

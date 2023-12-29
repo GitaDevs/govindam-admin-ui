@@ -1,12 +1,33 @@
 import { AxiosError, AxiosInstance, AxiosStatic, default as axios } from "axios";
 
+type Pagination = {
+  page?: number;
+  pageSize?: number;
+  withCount?: number;
+  start?: number;
+  limit?: number;
+  total?: number;
+}
+
+interface StrapiFilter {
+  [field: string]: {
+    [key in StrapiOperator]?: any;
+  };
+};
+
+type StrapiOperator = | '$eq' | '$ne' | '$lt' | '$lte' | '$gt' | '$gte' | '$in' | '$nin' | '$contains' | '$ncontains' | '$null';
+
 export interface Params {
   per_page?: number;
   page?: number;
   order_id?: string | number | string[];
   limit?: number;
   offset?: number;
-  populate?: string;
+  populate?: string | Object;
+  sort?: string[] | string;
+  pagination?: Pagination;
+  fields?: string[];
+  filters?: StrapiFilter;
 }
 
 class ApiEndpoints {
