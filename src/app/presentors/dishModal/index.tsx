@@ -5,82 +5,62 @@ import { Button, Collapse, CollapseProps, Descriptions, List } from "antd";
 const DishModal: React.FC<{ dishes: Dish[] }> = ({ dishes }) => {
 
   const collapsableMenu = () => {
-    const items: CollapseProps['items'] = [
-      {
-        key: '1',
-        label: 'Dynamic Ingredients Table',
-        children: getDynamicIngredientsTable(),
-      },
-      {
-        key: '2',
-        label: 'Text Instructions',
-        children: getMealTextInstruction(),
-      },
-      {
-        key: '3',
-        label: 'Video Instructions',
-        children: getMealVideoLink(),
-      }      
-    ];
+    const items: CollapseProps['items'] = dishes.map(dish => ({
+      key: dish.id,
+      label: dish.name,
+      children: (
+        <>
+          {getDynamicIngredientsTable(dish)}
+          {getMealTextInstruction(dish)}
+          {getMealVideoLink(dish)}
+        </>
+      )
+    }))
 
     return (
       <Collapse items={items} defaultActiveKey={['1']} />
     )
   }
 
-  const getMealVideoLink = () => (
+  const getMealVideoLink = (dish: Dish) => (
     <>
       <Descriptions layout="vertical" bordered size="small" className={`marginTop10`}>
-        <Descriptions.Item label={`Dishes`} labelStyle={{ fontWeight: 'bold'}}>
-          <List
-            size="small"
-            dataSource={dishes}
-            renderItem={dish => (
-              <List.Item>
-                <span>
-                  {dish.name}
-                </span>
-                <span className="floatRight">
-                  <Button type="link" target="_blank" href={dish.videoLink}>
-                    Link
-                  </Button>
-                </span>
-              </List.Item>
-            )}
-          >            
-          </List>
+        <Descriptions.Item label={`Video Link`} labelStyle={{ fontWeight: 'bold'}}>
+          <span>
+            <Button type="link" target="_blank" href={dish.videoLink}>
+              See Video
+            </Button>
+          </span>
         </Descriptions.Item>    
       </Descriptions>    
     </>    
   )
 
-  const getMealTextInstruction = () => (
+  const getMealTextInstruction = (dish: Dish) => (
     <>
       {
-        dishes.map((dish, index) => (
-          <Descriptions key={index} layout="vertical" bordered size="small" className={`marginTop10`}>
-            <Descriptions.Item key={index} label={`${dish.name}`} labelStyle={{ fontWeight: 'bold'}}>
-              {dish.textInstructions}
-            </Descriptions.Item>
-          </Descriptions>
-        ))
+        <Descriptions key={dish.id} layout="vertical" bordered size="small" className={`marginTop10`}>
+          <Descriptions.Item key={dish.id} label={`Text Instructions`} labelStyle={{ fontWeight: 'bold'}}>
+            {dish.textInstructions}
+          </Descriptions.Item>
+        </Descriptions>
       }
     </>
   )
 
-  const getDynamicIngredientsTable = () => (
+  const getDynamicIngredientsTable = (dish: Dish) => (
     <Descriptions layout="vertical" bordered size="small" className={`marginTop10`}>
-      <Descriptions.Item label={`Dishes`} labelStyle={{ fontWeight: 'bold'}}>
+      <Descriptions.Item label={`Raw Items`} labelStyle={{ fontWeight: 'bold'}}>
         <List
           size={'small'}
-          dataSource={dishes}
-          renderItem={dish => (
+          dataSource={dish.rawItems}
+          renderItem={rawItem => (
           <List.Item>
             <span>
-              {dish.name}
+              {rawItem.name}
             </span>
             <span className={`floatRight`}>
-              {`${dish?.servingSize || 0} ${dish?.unit?.name}`}
+              {`${rawItem?.quantity || 0} ${rawItem?.consumptionUnit.name}`}
             </span>
           </List.Item>
           )}

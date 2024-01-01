@@ -1,6 +1,5 @@
 import { Meal as IMeal, Menu as IMenu, Dish as IDish, Unit as IUnit } from "@/redux/types/menu";
 import { DishesOptions, MealOptions, MenuOptions, RawItemsOptions, UnitOptions } from "./types";
-import { DateTime } from "luxon";
 import { RawItem } from "@/redux/types/rawItem";
 
 class Menu {
@@ -38,6 +37,7 @@ class Menu {
       id: item.id,
       currentPrice: item.current_price,
       converstionRatio: item.converstion_ratio,
+      quantity: item.quantity,
       categories: item.categories.map(categ => ({
         id: categ.id,
         name: categ.name,

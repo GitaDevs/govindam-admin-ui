@@ -1,12 +1,12 @@
 'use client'
-import { getMealDate, getMealDay } from '@/lib/helpers';
+import { capitalize, getMealDate, getMealDay } from '@/lib/helpers';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { selectServedOrders } from '@/redux/selectors/menu';
 import { fetchMenuAndMeals } from '@/redux/thunk/menu';
 import { Meal } from '@/redux/types/menu';
-import { CheckCircleOutlined, CloseCircleOutlined, StarOutlined } from '@ant-design/icons';
-import { Card, Descriptions, Timeline } from 'antd';
-import React, { useEffect, useState } from 'react';
+import { CheckCircleOutlined } from '@ant-design/icons';
+import { Card, Descriptions, Rate, Timeline } from 'antd';
+import React, { useEffect } from 'react';
 
 const CookDashboardServerOrders: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -28,7 +28,11 @@ const CookDashboardServerOrders: React.FC = () => {
         dot: <CheckCircleOutlined className="timeline-clock-icon" />,
         color: 'green',
         children: (
-          <Card title={getMealDate(meal.servingDate)} extra={getMealDay(meal.servingDate)}>
+          <Card 
+            headStyle={{textAlign: "left"}}
+            title={`${getMealDate(meal.servingDate)}(${getMealDay(meal.servingDate)})`} 
+            extra={`${capitalize(meal.servingTime)}`}
+          >
             <Descriptions bordered>
               <Descriptions.Item label="Meal Name">{meal.name}</Descriptions.Item>
             </Descriptions>
@@ -39,11 +43,15 @@ const CookDashboardServerOrders: React.FC = () => {
     
             <Descriptions bordered className={`marginTop20`}>
               <Descriptions.Item label="Meal Rating">
-                {meal?.rating || 0} <StarOutlined />
+                <Rate
+                  allowHalf
+                  value={meal?.rating || 0}
+                  disabled={true}
+                />
               </Descriptions.Item>
             </Descriptions>
           </Card>
-        ),    
+        ),
       }
     })
   }

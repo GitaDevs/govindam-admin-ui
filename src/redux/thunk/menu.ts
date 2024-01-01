@@ -7,6 +7,7 @@ import { API_ENDPOINTS } from "@/lib/apiConstants";
 import { Menu } from "@/models/menu";
 import { updateToast } from "../actions/app";
 import { DateTime } from "luxon";
+import { EVENING, MORNING } from "../types/menu";
 
 const apiEndPoint = new ApiEndpoints(process.env.apiHost || "", null);
 
@@ -26,7 +27,7 @@ export const fetchMenuAndMeals = (fetchMealType?: FetchMealType, mealParams?: Pa
     const { response } = await apiEndPoint.get(API_ENDPOINTS.MENUS, params);
 
     if(response && response.data) {
-      const menu = new Menu(response.data);
+      const menu = filterUpcomingMenus(new Menu(response.data), fetchMealType || UPCOMING);
       dispatchMenuActions(dispatch, fetchMealType || UPCOMING, menu);
     } else {
       dispatch(updateToast({ type: 'error', message: `Unable to fetch menus!`, open: true}))
@@ -50,6 +51,50 @@ export const dispatchMenuActions = (dispatch: Dispatch<AnyAction>, mealType: Fet
   }
 }
 
+function filterUpcomingMenus(menu: Menu, fetchMealType: FetchMealType): Menu {
+  const currentTime = DateTime.local();
+  const morningTime = currentTime.set({ hour: 9, minute: 0, second: 0 });
+  const eveningTime = currentTime.set({ hour: 21, minute: 0, second: 0 });
+
+  if(fetchMealType === UPCOMING || fetchMealType === SEVEN_DAYS) {
+    menu.menus.forEach(m => {
+      m.meals = m.meals.filter(meal => {
+        const servingTime = meal.servingTime;
+        if(currentTime.toFormat("yyyy-mm-dd") !== meal.servingDate) {
+          return true;
+        }
+
+        if (servingTime === MORNING) {
+          return currentTime <= morningTime;
+        } else if (servingTime === EVENING) {
+          return currentTime <= eveningTime;
+        }
+  
+        return false;
+      });
+    });
+  } else if(fetchMealType === SERVED) {
+    menu.menus.forEach(m => {
+      m.meals = m.meals.filter(meal => {
+        const servingTime = meal.servingTime;
+        if(currentTime.toFormat("yyyy-mm-dd") !== meal.servingDate) {
+          return true;
+        }
+
+        if (servingTime === MORNING) {
+          return currentTime > morningTime;
+        } else if (servingTime === EVENING) {
+          return currentTime > eveningTime;
+        }
+  
+        return false;
+      });
+    });    
+  }
+
+  return menu;
+}
+
 function getMealParams(type?: FetchMealType): Params {
   switch(type) {
     case UPCOMING:
@@ -63,7 +108,7 @@ function getMealParams(type?: FetchMealType): Params {
             sort: ["serving_date:asc"],
             filters: {
               serving_date: {
-                $gt: DateTime.local().startOf('day')
+                $gte: DateTime.local().startOf('day')
               }
             },
             populate: {

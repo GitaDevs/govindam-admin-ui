@@ -58,4 +58,5 @@ export interface RawItemsOptions {
   sub_categories: CategoriesOptions[];
   purchasing_unit: UnitOptions;
   consumption_unit: UnitOptions;
+  quantity: number;
 };

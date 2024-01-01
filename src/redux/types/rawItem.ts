@@ -14,4 +14,5 @@ export type RawItem = {
   converstionRatio: number;
   categories?: Categories[];
   subCategories?: Categories[];
+  quantity: number;
 }

@@ -53,6 +53,7 @@ export const fetchUserRole = () => {
     if(response && response.data) {
       const userRole = response.data.role as UserRole;
       dispatch(setUerRole(userRole));
+      dispatch(setUserInfo({ ...getState().user.userinfo, ...response.data }));
     } else {
       dispatch(updateToast({ type: 'error', message: 'Unable to get user role!', open: true}))
     }

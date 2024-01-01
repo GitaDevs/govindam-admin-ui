@@ -9,6 +9,9 @@ export const API_ENDPOINTS = {
   // menu & meals request
   MENUS: `${API_PREFIX}/menus`,
 
-  //raw items
-  RAW_ITEMS: `${API_PREFIX}/raw-items`
+  // raw items
+  RAW_ITEMS: `${API_PREFIX}/raw-items`,
+
+  // special orders
+  SPECIAL_ORDERS: `${API_PREFIX}/special-order`
 }

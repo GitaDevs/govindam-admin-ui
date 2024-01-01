@@ -6,7 +6,7 @@ import DishModal from "@/app/presentors/dishModal";
 import { selectUpcomingMeals } from "@/redux/selectors/menu";
 import { Dish, Meal } from "@/redux/types/menu";
 import { DateTime } from "luxon";
-import { getMealDate, getMealDay } from "@/lib/helpers";
+import { capitalize, getMealDate, getMealDay } from "@/lib/helpers";
 
 export const WEEK_DAYS = [
   "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"
@@ -43,7 +43,11 @@ const UpcomingMeals: React.FC = () => {
         className={`marginTop20 cursorPointer`}
         onClick={(e) => openDishModal(meal.dishes)}
       >
-        <Card title={getMealDate(meal.servingDate)} extra={getMealDay(meal.servingDate)} bordered={true}>
+        <Card 
+          title={`${getMealDate(meal.servingDate)}(${getMealDay(meal.servingDate)})`}
+          extra={`${capitalize(meal.servingTime)}`} 
+          bordered={true}
+        >
           <Descriptions bordered>
             <Descriptions.Item label="Meal Name" contentStyle={{fontWeight: 'bold'}}>{meal.name || ""}</Descriptions.Item>
           </Descriptions>

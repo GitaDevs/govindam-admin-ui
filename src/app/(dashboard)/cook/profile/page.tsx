@@ -1,7 +1,20 @@
 'use client'
+import { useAppDispatch } from "@/redux/hooks";
+import { selectUserInfo, selectUserRoleType } from "@/redux/selectors/user";
+import { fetchUserRole } from "@/redux/thunk/user";
 import { Avatar, Button, Col, Form, Input, Row, Select } from "antd";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const UserProfile:React.FC = () => {
+  const dispatch = useAppDispatch();
+  const userInfo = useSelector(selectUserInfo());
+  const userRole = useSelector(selectUserRoleType());
+
+  useEffect(() => {
+    dispatch(fetchUserRole());
+  }, []);
+
   return (
     <div style={{ marginTop: '50px'}}>
       <Row className="marginBottom20">
@@ -11,68 +24,69 @@ const UserProfile:React.FC = () => {
       </Row>
 
       <Row className="marginTop20">
-        <Col md={24}>
-          <Form name="form_item_path" layout="vertical">
+        <Form
+          layout="vertical"
+          initialValues={{username: userInfo?.username || "", email: userInfo?.email || "", address: userInfo?.address || "", phone_number: userInfo?.phone_number || "", role: userRole || ""}}
+          style={{ width: '40em' }}
+          disabled={true}
+        >
+          <Col md={24}>
             <Form.Item
-              name={'first'}
-              rules={[{ required: true, message: 'Missing first name' }]}
-              label="First Name"
+              name={'username'}
+              rules={[{ required: true, message: 'Missing username' }]}
+              label="Username"
+            >
+              <Input size="large" value={userInfo?.username}/>
+            </Form.Item>              
+          </Col>
+
+          <Col md={24}>
+            <Form.Item
+              name={'email'}
+              rules={[{ required: true, message: 'Missing email' }]}
+              label="Email"
             >
               <Input size="large"/>
             </Form.Item>
-          </Form>
-        </Col>
+          </Col>
 
-        <Col md={24}>
-          <Form name="form_item_path" layout="vertical">
+          <Col md={24}>
             <Form.Item
-              name={'last'}
-              rules={[{ required: true, message: 'Missing last name' }]}
-              label="Last Name"
+              name={'address'}
+              rules={[{ required: false }]}
+              label="Address"
             >
               <Input size="large"/>
             </Form.Item>
-          </Form>
-        </Col>
+          </Col>
 
-        <Col md={24}>
-          <Form name="form_item_path" layout="vertical">
+          <Col md={24}>
             <Form.Item
-              name={'age'}
-              rules={[{ required: false, message: 'Missing Age' }]}
-              label="Age"
+              name={'phone_number'}
+              rules={[{ required: false }]}
+              label="Phone Number"
             >
-              <Input type="number" size="large"/>
+              <Input size="large"/>
             </Form.Item>
-          </Form>
-        </Col>
+          </Col>
 
-        <Col md={24}>
-          <Form name="form_item_path" layout="vertical">
+          <Col md={24}>
             <Form.Item
-              name={'gender'}
-              rules={[{ required: true, message: 'Missing Gender' }]}
-              label="Gender"
+              name={'role'}
+              label="Role"
             >
-              <Select
-                style={{ width: "100%" }}
-                size="large"
-                options={[
-                  {value: "male", label: "Male"},
-                  {value: "female", label: "Female"},
-                ]}
-              />
+              <Input size="large"/>
             </Form.Item>
-          </Form>
-        </Col>
+          </Col>
 
-        <Col md={12} className="marginTop20">
-          <Form.Item>
-            <Button type="primary" htmlType="submit" size="large">
-              Update Profile
-            </Button>
-          </Form.Item>        
-        </Col>
+          <Col md={12} className="marginTop20">
+            <Form.Item>
+              <Button type="primary" htmlType="submit" size="large">
+                Update Profile
+              </Button>
+            </Form.Item>
+          </Col>
+        </Form>
       </Row>
     </div>
   )

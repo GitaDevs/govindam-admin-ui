@@ -5,6 +5,7 @@ import UpcomingMeals from './upcomingMeals';
 import HealthOrders from './healthOrders';
 import { useAppDispatch } from '@/redux/hooks';
 import { fetchMenuAndMeals } from '@/redux/thunk/menu';
+import { fetchSpecialOrders } from '@/redux/thunk/order';
 
 const tabs = ["Upcoming Meals", "Health Orders"]
 const mealComponents = [UpcomingMeals, HealthOrders]
@@ -14,6 +15,7 @@ const CookDashboardHome: React.FC = () => {
 
   useEffect(() => {
     dispatch(fetchMenuAndMeals("upcoming"));
+    dispatch(fetchSpecialOrders());
   }, []);
 
   return(
