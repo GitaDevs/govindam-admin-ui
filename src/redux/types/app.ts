@@ -11,14 +11,14 @@ export interface ModalInterface {
   data?: ModalData;
 }
 
-export type ModalData = Omit<ModalProps, "open"> & { content?: React.ReactNode};
+export type ModalData = Omit<ModalProps, "open"> & { content?: React.ReactNode, renderData?: Object };
 
 export interface AppInitialState {
   snackbar: Snackbar;
   loading: boolean;
   sideDrawerOpen: boolean;
   modal: ModalInterface;
-  toast: ToastInterface
+  toast: ToastInterface;
 }
 
 export interface ToastInterface {

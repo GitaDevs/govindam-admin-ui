@@ -1,38 +1,42 @@
 'use client'
-import React, { useState } from 'react';
-import { Layout, theme } from 'antd';
-import {
-  UserOutlined,
-  CalendarOutlined,
-  ShoppingCartOutlined,
-  WarningOutlined
-} from '@ant-design/icons';
-import SideBar, { getItem } from '@/app/components/sidebar';
-import { MenuItem } from '@/app/types/sideBar';
+import { Tabs } from 'antd';
+import React, { useEffect } from 'react';
+import UpcomingMeals from '../../../components/upcomingMeals';
+import { useAppDispatch } from '@/redux/hooks';
+import { fetchMenuAndMeals } from '@/redux/thunk/menu';
+import { fetchSpecialOrders } from '@/redux/thunk/order';
 
-const { Header, Content } = Layout;
+const tabs = ["Upcoming Meals"]
+const mealComponents = [UpcomingMeals]
 
-const items: MenuItem[] = [
-  getItem('My Subscription', '1', <ShoppingCartOutlined />),
-  getItem('Profile', '4', <UserOutlined />),
-];
+const CustomerDashboardHome: React.FC = () => {
+  const dispatch = useAppDispatch();
 
-const CustomerDashboard: React.FC = () => {
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+  useEffect(() => {
+    dispatch(fetchMenuAndMeals("upcoming"));
+    dispatch(fetchSpecialOrders());
+  }, []);
 
   return(
-    <Layout>
-      <SideBar menuItems={items} />
+    <div className={`paddinghDesktop50 paddinghMobile10 widthDesktop50`}>
+      <Tabs
+        centered={true}
+        defaultActiveKey="1"
+        type="card"
+        size={"large"}
+        items={tabs.map((name, i) => {
+          const id = String(i + 1);
+          const Component = mealComponents[i];
 
-      <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }} />
-        <Content>
-        </Content>
-      </Layout>
-    </Layout>
+          return {
+            label: name,
+            key: id,
+            children: <Component />
+          };
+        })}
+      />
+    </div>
   )
 };
 
-export default CustomerDashboard;
+export default CustomerDashboardHome;

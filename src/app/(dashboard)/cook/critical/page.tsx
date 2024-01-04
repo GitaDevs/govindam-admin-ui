@@ -1,30 +1,33 @@
 'use client'
-
-import { Button, Input, SelectProps } from "antd";
+import { Button, Input } from "antd";
 import RefAutoComplete from "antd/es/auto-complete";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import style from "./style.module.css";
-import { useAppDispatch } from "@/redux/hooks";
-import { updateToast } from "@/redux/actions/app";
-
-const dummyInventoryList = [
-  { value: "Rice" },
-  { value: "Sugar" },
-  { value: "Pulses" },
-];
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { createAlertForRawItem, fetchAllRawItems } from "@/redux/thunk/rawItem";
+import { selectAllRawItems } from "@/redux/selectors/rawItem";
+import { RawItem } from "@/redux/types/rawItem";
+import TextArea from "antd/es/input/TextArea";
 
 const CriticalInventory: React.FC  = () => {
   const dispatch = useAppDispatch();
-  const [options, setOptions] = useState<{ value: string}[]>([]);
+  const rawItems = useAppSelector(selectAllRawItems());
+  const [desc, setDesc] = useState<string>();
+  const [options, setOptions] = useState<(RawItem & { value: string })[]>([]);
+  const [selectedRawItemId, setSelectedRawItemId] = useState<string | number>();
+
+  useEffect(() => {
+    dispatch(fetchAllRawItems());
+  }, [])
 
   const searchResult = (searchText: string) => {
     if(!searchText) return [];
 
-    const searchResults = dummyInventoryList.filter((item: { value: string }) => {
-      return item.value.startsWith(searchText)
+    const searchResults = rawItems.filter((item) => {
+      return item.name.startsWith(searchText)
     })
 
-    return searchResults
+    return searchResults.map(item => ({ ...item, value: item.name }))
   }
 
   const handleSearch = (value: string) => {
@@ -32,16 +35,18 @@ const CriticalInventory: React.FC  = () => {
   };
 
   const onSelect = (value: string) => {
-    console.log('onSelect', value);
+    const rawItem = rawItems.find(item => item.name === value);
+
+    setSelectedRawItemId(rawItem?.id);
   };
 
   const raiseAlert = () => {
-    // alert raise here and clear input
-    dispatch(updateToast({
-      open: true,
-      message: "Critical alert raised!!",
-      type: "success"
-    }))
+    if(!selectedRawItemId) return;
+    dispatch(createAlertForRawItem({ description: desc, rawItemsId: selectedRawItemId }));
+  }
+
+  const handleDescChange = (e: any) => {
+    setDesc(e.target.value);
   }
 
   return (
@@ -54,6 +59,14 @@ const CriticalInventory: React.FC  = () => {
       >
         <Input.Search size="large" placeholder="Search Inventory" enterButton />
       </RefAutoComplete>
+
+      <TextArea 
+        value={desc}
+        onChange={handleDescChange}
+        className="marginTop20" 
+        rows={4}
+        placeholder="Enter Description..." 
+      />
 
       <Button onClick={raiseAlert} className="marginTop30" block danger>
         Raise Alert

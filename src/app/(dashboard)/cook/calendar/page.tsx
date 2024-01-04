@@ -2,21 +2,31 @@
 
 import DishModal from "@/app/presentors/dishModal";
 import { MealCalendarType } from "@/app/types/calendar";
+import { getMealDate, getMealDay } from "@/lib/helpers";
 import { updateModal } from "@/redux/actions/app";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { selectSevenDaysMeals } from "@/redux/selectors/menu";
+import { fetchMenuAndMeals } from "@/redux/thunk/menu";
+import { Dish, Meal } from "@/redux/types/menu";
 import { Button, Divider, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
+import { useEffect } from "react";
 
 const MenuCalendar: React.FC = () => {
   const dispatch = useAppDispatch();
+  const sevenDaysMeals = useAppSelector(selectSevenDaysMeals());
 
-  const openDishModal = (bool: boolean = true) => {
+  useEffect(() => {
+    dispatch(fetchMenuAndMeals("sevenDays"));
+  }, []);
+
+  const openDishModal = (dishes: Dish[]) => {
     dispatch(updateModal({ 
-      open: bool,
+      open: true,
       data: {
         title: 'Meal Instructions',
         footer: null,
-        content: <DishModal />
+        content: <DishModal dishes={dishes}/>
       }
     }));
   }
@@ -26,7 +36,7 @@ const MenuCalendar: React.FC = () => {
       title: 'Prepare Date',
       dataIndex: 'prepareDate',
       key: 'prepareDate',
-      render: (date: Date) => <>{date?.toDateString()}</>,
+      render: (date: string) => <>{date}</>,
     },
     {
       title: 'Day',
@@ -43,37 +53,44 @@ const MenuCalendar: React.FC = () => {
     {
       title: 'Action',
       key: 'action',
-      render: (_, record) => (
+      render: (_, { dishes }) => (
         <>
-          <Button onClick={e => openDishModal()}>View</Button>
+          <Button onClick={e => openDishModal(dishes || [])}>View</Button>
         </>
       ),
     },
   ]
 
-  const data: MealCalendarType[] = [
-    {
-      key: '1',
-      prepareDate: new Date(),
-      day: "Monday",
-      mealName: "Rajma Chawal"
-    },
-    {
-      key: '2',
-      prepareDate: new Date(),
-      day: "Tuesday",
-      mealName: "Chole Chawal"
-    },
-  ];
+  const renderTable = () => {
+    let allMeals: Meal[] = []; 
 
-  return(
-    <div className={`paddinghDesktop50 paddinghMobile10 widthDesktop50`}>    
-      <Divider>Upcoming 7 Days Meal</Divider>
+    sevenDaysMeals.forEach(menu => {
+      allMeals = [...allMeals, ...(menu?.meals || [])];
+    });
+
+    const data: MealCalendarType[] = allMeals.map((meal, index) => {
+      return {
+        key: "" + index,
+        prepareDate: getMealDate(meal.servingDate),
+        day: getMealDay(meal.servingDate),
+        mealName: meal.name,
+        dishes: meal.dishes
+      } as MealCalendarType;
+    })
+
+    return (
       <Table 
         columns={columns}
         dataSource={data}
         pagination={false}
-      />
+      />      
+    )
+  }
+
+  return(
+    <div className={`paddinghDesktop50 paddinghMobile10 widthDesktop50`}>    
+      <Divider>Upcoming 7 Days Meal</Divider>
+      { renderTable() }
     </div>
   )
 }

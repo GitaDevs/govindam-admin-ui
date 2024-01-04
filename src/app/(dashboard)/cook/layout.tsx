@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Layout, Space, theme } from 'antd';
 import {
   UserOutlined,
@@ -9,6 +9,9 @@ import {
   DashboardOutlined
 } from '@ant-design/icons';
 import SideBar from '@/app/components/sidebar';
+import { useAppSelector } from '@/redux/hooks';
+import { selectUserToken } from '@/redux/selectors/user';
+import { useRouter } from 'next/navigation';
 
 const menuItems = [
   { key: '1', label: 'Home', icon: <DashboardOutlined />, href: "/cook/home" },
@@ -19,6 +22,12 @@ const menuItems = [
 ];
 
 function CookDashboardLayout({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
+  const userToken = useAppSelector(selectUserToken());
+
+  useEffect(() => {
+    if(!userToken) router.replace("/auth");
+  }, [userToken]);
 
   return(
     <Layout>
