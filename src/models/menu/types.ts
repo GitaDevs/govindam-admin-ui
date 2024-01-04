@@ -28,6 +28,7 @@ export type MealOptions = {
   serving_date: string;
   serving_time: ServingTime;
   rating: number;
+  people_dining: number;
   dishes: DishesOptions[];
 };
 

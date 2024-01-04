@@ -1,6 +1,7 @@
 import { initialState } from "../store/rawItem";
 import { RAW_ITEMS } from "../actions/rawItem";
 import { RawItemInitialState } from "../types/rawItem";
+import { RawItemsModel } from "@/models/rawItems";
 
 export function rawItemsReducer(state = initialState, action: any) {
   switch (action.type) {
@@ -10,14 +11,14 @@ export function rawItemsReducer(state = initialState, action: any) {
     }
 
     case RAW_ITEMS.SET_RAW_ITEMS: {
-      const payload = action.payload;
-      return { ...state, items: payload } as RawItemInitialState;
+      const payload = action.payload as RawItemsModel;
+      return { ...state, items: payload.rawItems } as RawItemInitialState;
     }
 
-    case RAW_ITEMS.ALERT_RAW_ITEMS: {
-      const payload = action.payload;
-      return { ...state, items: payload } as RawItemInitialState;
-    }
+    // case RAW_ITEMS.ALERT_RAW_ITEMS: {
+    //   const payload = action.payload;
+    //   return { ...state, items: payload } as RawItemInitialState;
+    // }
 
     default:
       return state

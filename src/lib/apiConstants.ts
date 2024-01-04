@@ -13,5 +13,8 @@ export const API_ENDPOINTS = {
   RAW_ITEMS: `${API_PREFIX}/raw-items`,
 
   // special orders
-  SPECIAL_ORDERS: `${API_PREFIX}/special-order`
+  SPECIAL_ORDERS: `${API_PREFIX}/special-order`,
+
+  // inventory alert
+  INVENTORY_ALERT: `${API_PREFIX}/inventory-alerts`,
 }

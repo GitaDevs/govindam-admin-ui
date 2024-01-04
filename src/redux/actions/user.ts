@@ -6,7 +6,7 @@ export enum User {
   USER_TOKEN = "user/USER_TOKEN",
   USER_LOGOUT = "user/USER_LOGOUT",
   SET_USER_LIST = "user/SET_USER_LIST",
-  SET_USER_ROLE = "user/SET_USER_ROLE"
+  SET_USER_ROLE = "user/SET_USER_ROLE",
 }
 
 export const userLoading = (payload: any) => {

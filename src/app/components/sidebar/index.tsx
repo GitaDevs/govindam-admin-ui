@@ -6,6 +6,9 @@ import { ScreenSize } from '@/app/types/screen';
 import { MenuItem, SidebarProps } from '../../types/sideBar';
 import style from "./style.module.css"
 import Link from 'next/link';
+import { LogoutOutlined } from '@ant-design/icons';
+import { useAppDispatch } from '@/redux/hooks';
+import { logoutUser } from '@/redux/actions/user';
 
 const { useBreakpoint } = Grid;
 const { Sider } = Layout;
@@ -14,6 +17,7 @@ export function getItem(
   label: React.ReactNode,
   key: React.Key,
   icon?: React.ReactNode,
+  href?: string,
   children?: MenuItem[],
 ): MenuItem {
   return {
@@ -21,12 +25,18 @@ export function getItem(
     icon,
     children,
     label,
+    href
   } as MenuItem;
 }
 
 const SideBar: React.FC<SidebarProps> = ({ menuItems }) => {
+  const dispatch = useAppDispatch();
   const screens = useBreakpoint();
   const [collapsed, setCollapsed] = useState(true);
+
+  const logout = () => {
+    dispatch(logoutUser());
+  }
 
   const getSidebar = () => {
     if(isLargeScreen(screens as ScreenSize)) {
@@ -46,6 +56,11 @@ const SideBar: React.FC<SidebarProps> = ({ menuItems }) => {
                   </Menu.Item>
               ))
             }
+            <Menu.Item key={'logout'} icon={<LogoutOutlined />}>
+              <Link href={"/auth" || ""} onClick={logout}>
+                {"Logout"}
+              </Link>
+            </Menu.Item>
           </Menu>
         </Sider>
       );
@@ -66,6 +81,11 @@ const SideBar: React.FC<SidebarProps> = ({ menuItems }) => {
                   </Menu.Item>
               ))
             }
+            <Menu.Item key={'logout'} icon={<LogoutOutlined />}>
+              <Link href={"/auth" || ""} onClick={logout}>
+                {"Logout"}
+              </Link>
+            </Menu.Item>            
           </Menu>          
         </Sider>
       )

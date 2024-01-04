@@ -19,6 +19,7 @@ class Order {
         isAccepted: order.is_accepted,
         healthIssue: order.health_issue,
         mealInstructions: order.meal_instructions,
+        isCancelled: order.is_cancelled,
         meal: {
           id: order.meals[0].id,
           name: order.meals[0].name,

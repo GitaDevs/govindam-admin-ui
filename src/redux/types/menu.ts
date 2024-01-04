@@ -42,6 +42,7 @@ export interface Meal {
   servingDate: string;
   servingTime: ServingTime;
   rating: number;
+  peopleDining: number;
   dishes: Dish[];
 }
 

@@ -7,6 +7,7 @@ export type OrderOptions = {
   is_accepted: boolean;
   health_issue: string;
   meal_instructions: string;
+  is_cancelled: boolean;
   processed_at: Date;
   meals: Omit<MealOptions, "dishes">[];
   users: Pick<UserInfo, "id" | "username" | "address" | "phone_number">[];

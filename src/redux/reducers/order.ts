@@ -15,6 +15,11 @@ export function orderReducer(state = initialState, action: any) {
       return { ...state, specialOrders: payload } as OrderInitialState;
     }
 
+    case ORDER.PUSH_SPECIAL_ORDER: {
+      const payload = (action?.payload?.specialOrders || []) as SpecialOrder[];
+      return { ...state, specialOrders: [...state.specialOrders, ...payload] } as OrderInitialState;
+    }
+
     case ORDER.UPDATE_SPECIAL_ORDER: {
       const payload = (action?.payload?.specialOrders[0] || null) as SpecialOrder;
       return { 

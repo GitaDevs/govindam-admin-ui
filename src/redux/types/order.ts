@@ -11,6 +11,7 @@ export interface SpecialOrder {
   createdAt?: Date;
   updatedAt?: Date;
   isAccepted: boolean;
+  isCancelled: boolean;
   healthIssue: string;
   mealInstructions: string;
   processedAt: Date;

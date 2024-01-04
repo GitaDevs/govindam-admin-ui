@@ -38,7 +38,7 @@ const CookDashboardServerOrders: React.FC = () => {
             </Descriptions>
 
             <Descriptions bordered className={`marginTop20`}>
-              <Descriptions.Item label="No. Of People Dined">{0}</Descriptions.Item>
+              <Descriptions.Item label="No. Of People Dined">{meal.peopleDining || 0}</Descriptions.Item>
             </Descriptions>
     
             <Descriptions bordered className={`marginTop20`}>

@@ -1,7 +1,7 @@
 'use client'
 import { Tabs } from 'antd';
 import React, { useEffect } from 'react';
-import UpcomingMeals from './upcomingMeals';
+import UpcomingMeals from '../../../components/upcomingMeals';
 import HealthOrders from './healthOrders';
 import { useAppDispatch } from '@/redux/hooks';
 import { fetchMenuAndMeals } from '@/redux/thunk/menu';

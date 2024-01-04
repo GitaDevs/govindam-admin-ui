@@ -41,7 +41,7 @@ const Auth: React.FC = (props) => {
     if(userRoleType === COOK) {
       router.push("/cook/home");
     } else if(userRoleType === CUSTOMER) {
-      router.push("/cook/home");
+      router.push("/user/home");
     }
   }, [userToken, userRoleType]);
 

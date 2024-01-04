@@ -14,13 +14,13 @@ export function userReducer(state = initialState, action: any) {
       return { ...state, userinfo: { ...payload } } as UserInitialState;
     }
 
-    case User.USER_LOGOUT: {
-      return { ...state } as UserInitialState;
-    }
-
     case User.SET_USER_ROLE: {
       const payload = action.payload as UserInfo;
       return { ...state, userRole: { ...payload } } as UserInitialState;
+    }
+
+    case User.USER_LOGOUT: {
+      return {} as UserInitialState;
     }
 
     default:

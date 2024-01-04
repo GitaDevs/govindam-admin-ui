@@ -2,7 +2,7 @@
 import { useAppDispatch } from "@/redux/hooks";
 import { selectUserInfo, selectUserRoleType } from "@/redux/selectors/user";
 import { fetchUserRole } from "@/redux/thunk/user";
-import { Avatar, Button, Col, Form, Input, Row, Select } from "antd";
+import { Avatar, Button, Col, Form, Input, Row } from "antd";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
@@ -27,7 +27,7 @@ const UserProfile:React.FC = () => {
         <Form
           layout="vertical"
           initialValues={{username: userInfo?.username || "", email: userInfo?.email || "", address: userInfo?.address || "", phone_number: userInfo?.phone_number || "", role: userRole || ""}}
-          style={{ width: '40em' }}
+          style={{ width: '30em' }}
           disabled={true}
         >
           <Col md={24}>

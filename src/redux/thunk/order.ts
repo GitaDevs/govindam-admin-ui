@@ -1,7 +1,7 @@
 import { Dispatch } from "react"
 import { AnyAction } from "redux"
 import { RootState } from ".."
-import { orderLoading, setSpecialOrders, updateSpecialOrder } from "../actions/order"
+import { orderLoading, pushSpecialOrders, setSpecialOrders, updateSpecialOrder } from "../actions/order"
 import { ApiEndpoints } from "@/lib/apiEndpoints";
 import { API_ENDPOINTS } from "@/lib/apiConstants";
 import { updateToast } from "../actions/app";
@@ -47,6 +47,31 @@ export const updateSpecialOrderThunk = (id: string, updateOrder: IOrderUpdate) =
       dispatch(updateSpecialOrder(order));
     } else {
       dispatch(updateToast({ type: 'error', message: `Unable to update special order!`, open: true}))
+    }
+
+    dispatch(orderLoading({ loading: false }));
+  }
+}
+
+export interface IOrderCreate {
+  mealId: number;
+  isCancelled?: boolean;
+  healthIssue?: string;
+  mealInstructions?: string;
+}
+
+export const createSpecialOrder = (body: IOrderCreate) => {
+  return async (dispatch: Dispatch<AnyAction>, getState: () => RootState) => {
+    dispatch(orderLoading({ loading: true }));
+
+    apiEndPoint.setToken(getState().user.userinfo.jwt || "");
+    const { response } = await apiEndPoint.post(`${API_ENDPOINTS.SPECIAL_ORDERS}`, { data: body });
+
+    if(response && response.data) {
+      const order = new Order([response.data]);
+      dispatch(pushSpecialOrders(order));
+    } else {
+      dispatch(updateToast({ type: 'error', message: `Unable to create special order!`, open: true}))
     }
 
     dispatch(orderLoading({ loading: false }));

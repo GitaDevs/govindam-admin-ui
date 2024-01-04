@@ -103,7 +103,8 @@ class Menu {
         servingTime: mealAttr.serving_time,
         rating: mealAttr.rating || 0,
         price: mealAttr.price,
-        dishes: newDishes
+        dishes: newDishes,
+        peopleDining: mealAttr.people_dining
       } as IMeal;
     })
   }
