@@ -15,3 +15,15 @@ export const selectUserToken = () => {
 export const selectUserRoleType = () => {
   return (state: RootState) => state.user?.userRole?.type
 }
+
+export const selectUserSubs = () => {
+  return (state: RootState) => state.user?.userSubs
+}
+
+export const isUserSubscribed = () => {
+  return (state: RootState) => Boolean(state.user?.userSubs?.id)
+}
+
+export const selectAllSubs = () => {
+  return (state: RootState) => state.user?.allSubs;
+}

@@ -71,7 +71,8 @@ export const createSpecialOrder = (body: IOrderCreate) => {
       const order = new Order([response.data]);
       dispatch(pushSpecialOrders(order));
     } else {
-      dispatch(updateToast({ type: 'error', message: `Unable to create special order!`, open: true}))
+      const errorMsg = `Unable to create special order!`;
+      dispatch(updateToast({ type: 'error', message: errorMsg, open: true}))
     }
 
     dispatch(orderLoading({ loading: false }));

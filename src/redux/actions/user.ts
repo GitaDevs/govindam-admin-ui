@@ -1,4 +1,5 @@
-import { UserInfo, UserRole } from "../types/user";
+import { SubscritionsModel } from "@/models/subscriptions";
+import { UserInfo, UserRole, UserSubs } from "../types/user";
 
 export enum User {
   USER_AUTH_LOADING = "user/USER_AUTH_LOADING",
@@ -7,6 +8,8 @@ export enum User {
   USER_LOGOUT = "user/USER_LOGOUT",
   SET_USER_LIST = "user/SET_USER_LIST",
   SET_USER_ROLE = "user/SET_USER_ROLE",
+  SET_USER_SUBS = "user/SET_USER_SUBS",
+  SET_ALL_SUBS = "user/SET_ALL_SUBS"
 }
 
 export const userLoading = (payload: any) => {
@@ -23,6 +26,14 @@ export const setUserToken = (payload: string) => {
 
 export const setUerRole = (payload: UserRole) => {
   return { type: User.SET_USER_ROLE, payload }
+}
+
+export const setUserSubs = (payload: Partial<UserSubs>) => {
+  return { type: User.SET_USER_SUBS, payload }
+}
+
+export const setAllSubs = (payload: SubscritionsModel) => {
+  return { type: User.SET_ALL_SUBS, payload };
 }
 
 export const logoutUser = () => {

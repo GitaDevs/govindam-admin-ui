@@ -21,7 +21,7 @@ export const fetchMenuAndMeals = (fetchMealType?: FetchMealType, mealParams?: Pa
   return async (dispatch: Dispatch<AnyAction>, getState: () => RootState) => {
     dispatch(menuLoading({ loading : true }));
 
-    apiEndPoint.setToken(getState().user.userinfo.jwt || "");
+    apiEndPoint.setToken(getState().user.userinfo?.jwt || "");
 
     const params =  mealParams || getMealParams(fetchMealType);
     const { response } = await apiEndPoint.get(API_ENDPOINTS.MENUS, params);
@@ -60,7 +60,7 @@ function filterUpcomingMenus(menu: Menu, fetchMealType: FetchMealType): Menu {
     menu.menus.forEach(m => {
       m.meals = m.meals.filter(meal => {
         const servingTime = meal.servingTime;
-        if(currentTime.toFormat("yyyy-mm-dd") !== meal.servingDate) {
+        if(currentTime.toFormat("yyyy-MM-dd") !== meal.servingDate) {
           return true;
         }
 

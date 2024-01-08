@@ -20,8 +20,29 @@ export interface UserRole {
   type: roles;
 }
 
+export interface UserSubs {
+  id: number;
+  isActive: boolean;
+  starts: string;
+  ends: string;
+}
+
+export interface Subscription {
+  id: number;
+  name: string;
+  description: string;
+  type: string;
+  breakfast: boolean;
+  lunch: boolean;
+  dinner: boolean;
+  price: number;
+  validDays: number;
+}
+
 export interface UserInitialState {
   userinfo: Partial<UserInfo>;
   loading: boolean;
-  userRole: Partial<UserRole>
+  userRole: Partial<UserRole>;
+  userSubs: Partial<UserSubs>;
+  allSubs: Partial<Subscription[]>;
 }

@@ -5,6 +5,8 @@ export const API_ENDPOINTS = {
   USER_AUTH: `${API_PREFIX}/auth/local`,
   USER_ME: `${API_PREFIX}/users/me`,
   USER_REGISTER: `${API_PREFIX}/auth/local/register`,
+  USER_SUBS: `${API_PREFIX}/user-subs`,
+  SUBS: `${API_PREFIX}/subscriptions`,
 
   // menu & meals request
   MENUS: `${API_PREFIX}/menus`,

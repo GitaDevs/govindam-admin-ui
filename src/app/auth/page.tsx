@@ -6,7 +6,7 @@ import bgV from '../../../public/bg_vertical.jpg';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { UserParams, UserRegisterParams, authenticateUser, fetchUserRole, registerNewUser } from '@/redux/thunk/user';
 import { selectUserRoleType, selectUserToken } from '@/redux/selectors/user';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { COOK, CUSTOMER } from '@/redux/types/user';
 import { updateToast } from '@/redux/actions/app';
 
@@ -25,9 +25,16 @@ enum LoginType {
 const Auth: React.FC = (props) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [loginType, setLoginType] = useState<LoginType>(LoginType.SIGN_IN);
   const userToken = useAppSelector(selectUserToken());
   const userRoleType = useAppSelector(selectUserRoleType());
+
+  useEffect(() => {
+    if(searchParams.get('confirmed') !== 'true') return;
+
+    dispatch(updateToast({ type: 'success', message: 'Email is confirmed!', open: true}))
+  }, []);
 
   useEffect(() => {
     if(!userToken || userRoleType) return;

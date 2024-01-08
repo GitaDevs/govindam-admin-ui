@@ -2,20 +2,32 @@
 import { Tabs } from 'antd';
 import React, { useEffect } from 'react';
 import UpcomingMeals from '../../../components/upcomingMeals';
-import { useAppDispatch } from '@/redux/hooks';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { fetchMenuAndMeals } from '@/redux/thunk/menu';
 import { fetchSpecialOrders } from '@/redux/thunk/order';
+import { getUserActiveSubscription } from '@/redux/thunk/user';
+import { isUserSubscribed } from '@/redux/selectors/user';
+import { redirect } from 'next/navigation';
 
 const tabs = ["Upcoming Meals"]
 const mealComponents = [UpcomingMeals]
 
 const CustomerDashboardHome: React.FC = () => {
   const dispatch = useAppDispatch();
+  const userSubscribed = useAppSelector(isUserSubscribed());
 
   useEffect(() => {
+    dispatch(getUserActiveSubscription());
+  }, []);
+
+  useEffect(() => {
+    if(!userSubscribed) {
+      redirect("/user/subscription");
+    };
+
     dispatch(fetchMenuAndMeals("upcoming"));
     dispatch(fetchSpecialOrders());
-  }, []);
+  }, [userSubscribed]);
 
   return(
     <div className={`paddinghDesktop50 paddinghMobile10 widthDesktop50`}>

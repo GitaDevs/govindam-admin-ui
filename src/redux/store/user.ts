@@ -3,7 +3,9 @@ import { UserInitialState } from "../types/user";
 export const initialState: UserInitialState = {
   userinfo: {},
   loading: false,
-  userRole: {}
+  userRole: {},
+  userSubs: {},
+  allSubs: [],
 };
 
 export const previousState = {};

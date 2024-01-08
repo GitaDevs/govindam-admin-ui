@@ -14,10 +14,10 @@ const { Header, Content } = Layout;
 
 const items: MenuItem[] = [
   getItem('Home', '1', <DashboardOutlined />, "/user/home"),
-  getItem('Subscriptions', '2', <ShoppingCartOutlined />, "/user/subscriptions"),
-  getItem('Order', '3', <ShoppingCartOutlined />, "/user/subscriptions"),
-  getItem('Feedback', '4', <CommentOutlined />, "/user/feedback"),
-  getItem('Profile', '5', <UserOutlined />, "user/profile"),
+  getItem('Subscriptions', '2', <ShoppingCartOutlined />, "/user/subscription"),
+  // getItem('Order', '3', <ShoppingCartOutlined />, "/user/subscription"),
+  // getItem('Feedback', '4', <CommentOutlined />, "/user/feedback"),
+  getItem('Profile', '5', <UserOutlined />, "/user/profile"),
 ];
 
 function CustomerDashboard({ children }: { children: React.ReactNode }) {

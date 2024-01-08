@@ -1,6 +1,7 @@
+import { SubscritionsModel } from "@/models/subscriptions";
 import { User } from "../actions/user";
 import { initialState } from "../store/user";
-import { UserInfo, UserInitialState } from "../types/user";
+import { UserInfo, UserInitialState, UserSubs } from "../types/user";
 
 export function userReducer(state = initialState, action: any) {
   switch (action.type) {
@@ -17,6 +18,16 @@ export function userReducer(state = initialState, action: any) {
     case User.SET_USER_ROLE: {
       const payload = action.payload as UserInfo;
       return { ...state, userRole: { ...payload } } as UserInitialState;
+    }
+
+    case User.SET_USER_SUBS: {
+      const payload = action.payload as UserSubs;
+      return { ...state, userSubs: payload } as UserInitialState;
+    }
+
+    case User.SET_ALL_SUBS: {
+      const payload = action.payload as SubscritionsModel;
+      return { ...state, allSubs: payload.subscriptions } as UserInitialState;
     }
 
     case User.USER_LOGOUT: {

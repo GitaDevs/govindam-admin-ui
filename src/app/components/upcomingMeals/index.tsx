@@ -46,7 +46,9 @@ const UpcomingMeals: React.FC = () => {
       }
     }
 
-    return {};
+    return {
+      className: "marginTop20"
+    };
   }
 
   const handleOk = (mealId: number, type: "cancel" | "request") => {
@@ -99,6 +101,8 @@ const UpcomingMeals: React.FC = () => {
   }
 
   const renderOrderTag = (orderExist: SpecialOrder) => {
+    if(userRole !== CUSTOMER) return;
+
     if(orderExist.isCancelled) {
       return (
         <div className="floatRight marginTop10">
@@ -108,14 +112,14 @@ const UpcomingMeals: React.FC = () => {
     } else if(orderExist.isAccepted) {
       return (
         <div className="floatRight marginTop10">
-          <Tag color="green">Order Accpedted By Cook</Tag>
+          <Tag color="green">Order Accepted By Cook</Tag>
         </div>        
       )
     } else {
       return (
         <div className="floatRight marginTop10">
           <Tag color="yellow">Waiting for Cook to Accept</Tag>
-        </div>        
+        </div>
       )
     }
   }
@@ -127,8 +131,8 @@ const UpcomingMeals: React.FC = () => {
 
     if(!orderExist) return;
 
-    if(!render) return true;
-    return renderOrderTag(orderExist);  
+    if(render) return renderOrderTag(orderExist);
+    return true;
   }
 
   const renderMeals = () => {
