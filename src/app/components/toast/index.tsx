@@ -18,7 +18,7 @@ const Toast: React.FC = () => {
       api[toastData.type]({
         key: toastData.message || "key",
         message: toastData.message,
-        description: toastData.description || "",
+        description: toastData.description || null,
         onClose: () => {
           dispatch(updateToast({ open: false }))
         }

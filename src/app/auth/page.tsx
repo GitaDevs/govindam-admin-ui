@@ -1,8 +1,14 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Form, Input, Row, Col, Space } from 'antd';
 import styles from './style.module.css';
 import bgV from '../../../public/bg_vertical.jpg';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { UserParams, UserRegisterParams, authenticateUser, fetchUserRole, registerNewUser } from '@/redux/thunk/user';
+import { selectUserRoleType, selectUserToken } from '@/redux/selectors/user';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { COOK, CUSTOMER } from '@/redux/types/user';
+import { updateToast } from '@/redux/actions/app';
 
 const style = {
   backgroundImage: `url('${bgV.src}')`,
@@ -17,12 +23,55 @@ enum LoginType {
 }
 
 const Auth: React.FC = (props) => {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [loginType, setLoginType] = useState<LoginType>(LoginType.SIGN_IN);
+  const userToken = useAppSelector(selectUserToken());
+  const userRoleType = useAppSelector(selectUserRoleType());
+
+  useEffect(() => {
+    if(searchParams.get('confirmed') !== 'true') return;
+
+    dispatch(updateToast({ type: 'success', message: 'Email is confirmed!', open: true}))
+  }, []);
+
+  useEffect(() => {
+    if(!userToken || userRoleType) return;
+
+    dispatch(fetchUserRole());
+  }, [userToken])
+
+  useEffect(() => {
+    if(!userToken || !userRoleType) return;
+
+    if(userRoleType === COOK) {
+      router.push("/cook/home");
+    } else if(userRoleType === CUSTOMER) {
+      router.push("/user/home");
+    }
+  }, [userToken, userRoleType]);
 
   const onFinish = (values: any) => {
-    console.log('Success:', values);
+    if(loginType === LoginType.SIGN_IN) {
+      dispatch(authenticateUser(values as UserParams));
+    } else {
+      if(values.password !== values.confirmPassword) {
+        dispatch(updateToast({ type: 'error', message: 'Password not matched!', open: true}))
+        return;
+      }
+
+      const user: UserRegisterParams = {
+        email: values.identifier,
+        username: values.username,
+        password: values.password,
+        name: values.username
+      }
+
+      dispatch(registerNewUser(user as UserRegisterParams));
+    }
   };
-  
+
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
   };
@@ -53,9 +102,22 @@ const Auth: React.FC = (props) => {
               onFinishFailed={onFinishFailed}
               autoComplete="on"
             >
+
+              {
+                loginType === LoginType.SIGN_UP && (
+                  <Form.Item
+                  label=""
+                  name="username"
+                  rules={[{ required: true, message: 'Please input your username!' }]}
+                  >
+                    <Input type="text" size="large" placeholder='Username' />
+                  </Form.Item>
+                )
+              }
+
               <Form.Item
                 label=""
-                name="email"
+                name="identifier"
                 rules={[{ required: true, message: 'Please input your emailId!' }]}
               >
                 <Input type='email' size='large' placeholder='Email'/>
@@ -77,7 +139,7 @@ const Auth: React.FC = (props) => {
                   rules={[{ required: true, message: 'Please input your confirm password!' }]}
                   >
                     <Input.Password type="password" size="large" placeholder='Confirm Password' />
-                  </Form.Item>                  
+                  </Form.Item>
                 )
               }
 
