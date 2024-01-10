@@ -2,8 +2,8 @@
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { selectAllSubs } from '@/redux/selectors/user';
 import { getSubscriptionList } from '@/redux/thunk/user';
-import { CheckCircleFilled, CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
-import { Card, Col, Row } from 'antd';
+import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import { Button, Card, Col, Row, Statistic } from 'antd';
 import React, { useEffect } from 'react';
 
 const SubList: React.FC = () => {
@@ -30,6 +30,10 @@ const SubList: React.FC = () => {
     );
   }
 
+  const purchaseSubscription = (subId?: number) => {
+    if(!subId) return;
+  }
+
   const renderSubList = () => {
     return (subscriptionList || []).map((sub, index) => (
       <Col key={index} md={24} sm={24} xs={24} className='marginTop20'>
@@ -42,12 +46,21 @@ const SubList: React.FC = () => {
           </div>
 
           <div className='marginTop20'>
-            Pricing <b>Rs.{sub?.price || 0}</b>
+            <Statistic title="Pricing" value={`Rs. ${sub?.price || 0}`} />
           </div>
 
           <div className='marginTop10'>
-            {`Valid for ${sub?.validDays} days`}
+            <Statistic title="Validity" value={`${sub?.validDays} days`} />
           </div>
+
+          <Button
+            className='marginTop20'
+            type="primary"
+            block
+            onClick={() => purchaseSubscription(sub?.id)}
+          >
+            Purchase Now
+          </Button>          
         </Card>
       </Col>
     ))

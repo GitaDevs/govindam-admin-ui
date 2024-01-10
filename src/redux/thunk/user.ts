@@ -45,7 +45,7 @@ export const authenticateUser = (userParams: UserParams) => {
 
 export const fetchUserRole = () => {
   return async (dispatch: Dispatch<AnyAction>, getState: () => RootState) => {
-    apiEndPoint.setToken(getState().user.userinfo.jwt || "");
+    apiEndPoint.setToken(getState().user.userinfo?.jwt || "");
 
     dispatch(userLoading({ loading : true }));
 
@@ -89,7 +89,7 @@ export const getUserActiveSubscription = () => {
   return async (dispatch: Dispatch<AnyAction>, getState: () => RootState) => {
     dispatch(userLoading({ loading : true }));
 
-    apiEndPoint.setToken(getState().user.userinfo.jwt || "");
+    apiEndPoint.setToken(getState().user.userinfo?.jwt || "");
 
     const { response } = await apiEndPoint.get(API_ENDPOINTS.USER_SUBS);
 
@@ -114,7 +114,7 @@ export const getSubscriptionList = () => {
   return async (dispatch: Dispatch<AnyAction>, getState: () => RootState) => {
     dispatch(userLoading({ loading : true }));
 
-    apiEndPoint.setToken(getState().user.userinfo.jwt || "");
+    apiEndPoint.setToken(getState().user.userinfo?.jwt || "");
 
     const { response } = await apiEndPoint.get(API_ENDPOINTS.SUBS);
 
