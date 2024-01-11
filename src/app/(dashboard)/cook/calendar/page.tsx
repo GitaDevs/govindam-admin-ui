@@ -8,9 +8,11 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { selectSevenDaysMeals } from "@/redux/selectors/menu";
 import { fetchMenuAndMeals } from "@/redux/thunk/menu";
 import { Dish, Meal } from "@/redux/types/menu";
-import { Button, Divider, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { useEffect } from "react";
+import Button from "antd/es/button";
+import Divider from "antd/es/divider";
+import Table from "antd/es/table";
 
 const MenuCalendar: React.FC = () => {
   const dispatch = useAppDispatch();
