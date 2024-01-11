@@ -1,12 +1,17 @@
 'use client'
 
-import { Row, Col, Card, Descriptions, Button, Tag } from "antd"
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons"
 import { useAppDispatch, useAppSelector } from "@/redux/hooks"
 import { selectSpecialOrders } from "@/redux/selectors/order"
 import { capitalize, getMealDate, getMealDay } from "@/lib/helpers"
 import { updateSpecialOrderThunk } from "@/redux/thunk/order"
 import { DateTime } from "luxon"
+import Button from "antd/es/button";
+import Tag from "antd/es/tag";
+import Descriptions from "antd/es/descriptions";
+import Card from "antd/es/card";
+import Col from "antd/es/col";
+import Row from "antd/es/row";
 
 const HealthOrders: React.FC = () => {
   const dispatch = useAppDispatch();

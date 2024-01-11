@@ -2,9 +2,14 @@
 import { useAppDispatch } from "@/redux/hooks";
 import { selectUserInfo, selectUserRoleType } from "@/redux/selectors/user";
 import { fetchUserRole } from "@/redux/thunk/user";
-import { Avatar, Button, Col, Form, Input, Row } from "antd";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import Button from "antd/es/button";
+import Avatar from "antd/es/avatar";
+import Form from "antd/es/form";
+import Col from "antd/es/col";
+import Row from "antd/es/row";
+import Input from "antd/es/input";
 
 const UserProfile:React.FC = () => {
   const dispatch = useAppDispatch();
