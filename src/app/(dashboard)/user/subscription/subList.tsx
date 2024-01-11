@@ -3,7 +3,11 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { selectAllSubs } from '@/redux/selectors/user';
 import { getSubscriptionList } from '@/redux/thunk/user';
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
-import { Button, Card, Col, Row, Statistic } from 'antd';
+import Statistic from 'antd/es/statistic';
+import Button from "antd/es/button";
+import Card from "antd/es/card";
+import Row from "antd/es/row";
+import Col from "antd/es/col";
 import React, { useEffect } from 'react';
 
 const SubList: React.FC = () => {

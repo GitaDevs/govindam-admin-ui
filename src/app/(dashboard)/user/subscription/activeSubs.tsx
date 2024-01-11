@@ -2,7 +2,7 @@
 import { useAppSelector } from '@/redux/hooks';
 import { selectUserSubs } from '@/redux/selectors/user';
 import React from 'react';
-import { Result } from 'antd';
+import Result from 'antd/es/result';
 import { DateTime } from 'luxon';
 
 const ActiveSubs: React.FC = () => {

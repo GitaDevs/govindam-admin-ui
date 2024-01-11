@@ -1,6 +1,8 @@
 'use client'
 import React, { useState } from 'react';
-import { Layout, Menu, Grid } from 'antd';
+import Grid from 'antd/es/grid';
+import Layout from 'antd/es/layout';
+import Menu from 'antd/es/menu';
 import { isLargeScreen } from '@/app/helpers/miscellaneous';
 import { ScreenSize } from '@/app/types/screen';
 import { MenuItem, SidebarProps } from '../../types/sideBar';

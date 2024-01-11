@@ -1,6 +1,6 @@
 'use client'
-import React, { useEffect, useState } from 'react';
-import { Layout, Space, theme } from 'antd';
+import React, { useEffect } from 'react';
+import Layout from 'antd/es/layout';
 import {
   UserOutlined,
   CalendarOutlined,
