@@ -1,6 +1,10 @@
 'use client'
 import { Dish } from "@/redux/types/menu";
-import { Button, Collapse, CollapseProps, Descriptions, List } from "antd";
+import Button from "antd/es/button";
+import Collapse from "antd/es/collapse";
+import Descriptions from "antd/es/descriptions";
+import { CollapseProps } from "antd/es/collapse/Collapse";
+import List from "antd/es/list";
 
 const DishModal: React.FC<{ dishes: Dish[] }> = ({ dishes }) => {
 

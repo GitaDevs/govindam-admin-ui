@@ -1,5 +1,4 @@
 'use client'
-import { Row, Col, Card, Descriptions, List, Button, Input, Tag } from "antd";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { updateModal } from "@/redux/actions/app";
 import DishModal from "@/app/presentors/dishModal";
@@ -14,6 +13,14 @@ import { useRef } from "react";
 import { createSpecialOrder } from "@/redux/thunk/order";
 import { selectSpecialOrders } from "@/redux/selectors/order";
 import { SpecialOrder } from "@/redux/types/order";
+import Button from "antd/es/button";
+import Card from "antd/es/card";
+import Descriptions from "antd/es/descriptions";
+import Col from "antd/es/col";
+import Row from "antd/es/row";
+import Input from "antd/es/input";
+import List from "antd/es/list";
+import Tag from "antd/es/tag";
 
 export const WEEK_DAYS = [
   "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"

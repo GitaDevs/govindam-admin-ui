@@ -1,4 +1,4 @@
-import { ModalProps } from "antd";
+import { ModalProps } from "antd/es/modal"
 
 export interface Snackbar {
   open: boolean;

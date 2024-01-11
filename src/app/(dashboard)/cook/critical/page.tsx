@@ -1,5 +1,4 @@
 'use client'
-import { Button, Input } from "antd";
 import RefAutoComplete from "antd/es/auto-complete";
 import { useEffect, useState } from "react";
 import style from "./style.module.css";
@@ -8,6 +7,8 @@ import { createAlertForRawItem, fetchAllRawItems } from "@/redux/thunk/rawItem";
 import { selectAllRawItems } from "@/redux/selectors/rawItem";
 import { RawItem } from "@/redux/types/rawItem";
 import TextArea from "antd/es/input/TextArea";
+import Button from "antd/es/button";
+import Input from "antd/es/input";
 
 const CriticalInventory: React.FC  = () => {
   const dispatch = useAppDispatch();

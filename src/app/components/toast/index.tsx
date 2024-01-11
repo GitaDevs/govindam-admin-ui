@@ -4,8 +4,8 @@ import { updateToast } from "@/redux/actions/app";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { selectToastData } from "@/redux/selectors/app";
 import { ToastInterface } from "@/redux/types/app";
-import { notification } from "antd";
 import { useEffect } from "react";
+import notification from "antd/es/notification";
 
 const Toast: React.FC = () => {
   const dispatch = useAppDispatch();
