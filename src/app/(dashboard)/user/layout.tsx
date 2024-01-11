@@ -1,6 +1,7 @@
 'use client'
 import React, { useState } from 'react';
-import { Layout, theme } from 'antd';
+import Layout from "antd/es/layout";
+import theme from "antd/es/theme";
 import {
   UserOutlined,
   ShoppingCartOutlined,

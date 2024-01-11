@@ -1,6 +1,6 @@
 'use client'
 import React from 'react';
-import { Layout } from 'antd';
+import Layout from 'antd/es/layout';
 import CustomModal from '../components/modal';
 import Toast from '../components/toast';
 import StoreWrapper from '../containers/storeWrapper';

@@ -1,6 +1,11 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Input, Row, Col, Space } from 'antd';
+import Button from "antd/es/button";
+import Form from "antd/es/form";
+import Row from "antd/es/row";
+import Col from "antd/es/col";
+import Input from "antd/es/input";
+import Space from "antd/es/space";
 import styles from './style.module.css';
 import bgV from '../../../public/bg_vertical.jpg';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';

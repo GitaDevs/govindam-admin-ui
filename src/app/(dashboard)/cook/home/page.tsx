@@ -1,5 +1,5 @@
 'use client'
-import { Tabs } from 'antd';
+import Tabs from 'antd/es/tabs';
 import React, { useEffect } from 'react';
 import UpcomingMeals from '../../../components/upcomingMeals';
 import HealthOrders from './healthOrders';

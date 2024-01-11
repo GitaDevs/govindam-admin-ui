@@ -5,7 +5,11 @@ import { selectServedOrders } from '@/redux/selectors/menu';
 import { fetchMenuAndMeals } from '@/redux/thunk/menu';
 import { Meal } from '@/redux/types/menu';
 import { CheckCircleOutlined } from '@ant-design/icons';
-import { Card, Descriptions, Rate, Timeline } from 'antd';
+import Card from 'antd/es/card';
+import Descriptions from 'antd/es/descriptions';
+import Rate from 'antd/es/rate';
+import Timeline from 'antd/es/timeline';
+
 import React, { useEffect } from 'react';
 
 const CookDashboardServerOrders: React.FC = () => {
