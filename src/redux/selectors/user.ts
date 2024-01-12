@@ -31,3 +31,7 @@ export const selectAllSubs = () => {
 export const selectUserLoading = () => {
   return (state: RootState) => state.user?.loading;
 }
+
+export const selectSubPurchaseDetails = () => {
+  return (state: RootState) => state.user?.subPurchaseDetails;
+}

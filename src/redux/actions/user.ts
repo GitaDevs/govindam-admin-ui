@@ -1,5 +1,5 @@
 import { SubscritionsModel } from "@/models/subscriptions";
-import { UserInfo, UserRole, UserSubs } from "../types/user";
+import { PaymentDetails, UserInfo, UserRole, UserSubs } from "../types/user";
 
 export enum User {
   USER_AUTH_LOADING = "user/USER_AUTH_LOADING",
@@ -9,7 +9,8 @@ export enum User {
   SET_USER_LIST = "user/SET_USER_LIST",
   SET_USER_ROLE = "user/SET_USER_ROLE",
   SET_USER_SUBS = "user/SET_USER_SUBS",
-  SET_ALL_SUBS = "user/SET_ALL_SUBS"
+  SET_ALL_SUBS = "user/SET_ALL_SUBS",
+  SUB_PURCHASE_DETAILS = "user/SUB_PURCHASE_DETAILS"
 }
 
 export const userLoading = (payload: any) => {
@@ -38,4 +39,8 @@ export const setAllSubs = (payload: SubscritionsModel) => {
 
 export const logoutUser = () => {
   return { type: User.USER_LOGOUT }
+}
+
+export const setSubPurchaseDetails = (payload: PaymentDetails) => {
+  return { type: User.SUB_PURCHASE_DETAILS, payload };
 }

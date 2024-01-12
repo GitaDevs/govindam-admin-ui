@@ -7,6 +7,7 @@ export const API_ENDPOINTS = {
   USER_REGISTER: `${API_PREFIX}/auth/local/register`,
   USER_SUBS: `${API_PREFIX}/user-subs`,
   SUBS: `${API_PREFIX}/subscriptions`,
+  SUB_PURCHASE_VALIDATE: `${API_PREFIX}/user-subs/validate`,
 
   // menu & meals request
   MENUS: `${API_PREFIX}/menus`,

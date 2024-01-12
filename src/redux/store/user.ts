@@ -6,6 +6,7 @@ export const initialState: UserInitialState = {
   userRole: {},
   userSubs: {},
   allSubs: [],
+  subPurchaseDetails: {}
 };
 
 export const previousState = {};

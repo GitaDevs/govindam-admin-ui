@@ -2,10 +2,10 @@ import { AnyAction } from "redux";
 import { RootState } from "..";
 import { Dispatch } from "react";
 import { ApiEndpoints } from "@/lib/apiEndpoints";
-import { setAllSubs, setUerRole, setUserInfo, setUserSubs, userLoading } from "../actions/user";
+import { setAllSubs, setSubPurchaseDetails, setUerRole, setUserInfo, setUserSubs, userLoading } from "../actions/user";
 import { API_ENDPOINTS } from "@/lib/apiConstants";
 import { updateToast } from "../actions/app";
-import { UserRole, UserSubs } from "../types/user";
+import { PaymentDetails, UserRole, UserSubs } from "../types/user";
 import { SubscritionsModel } from "@/models/subscriptions";
 
 export interface UserParams {
@@ -123,6 +123,23 @@ export const getSubscriptionList = () => {
       dispatch(setAllSubs(new SubscritionsModel(response.data)));
     } else {
       dispatch(updateToast({ type: 'error', message: 'Unable to fetch subscriptions!', open: true}))
+    }
+
+    dispatch(userLoading({ loading : false }));
+  }
+}
+
+export const validateSubPaymentDetails = (subId: string | number) => {
+  return async (dispatch: Dispatch<AnyAction>, getState: () => RootState) => {
+    dispatch(userLoading({ loading : true }));
+
+    apiEndPoint.setToken(getState().user.userinfo?.jwt || "");
+    const { response } = await apiEndPoint.post(API_ENDPOINTS.SUB_PURCHASE_VALIDATE, { subId });
+
+    if(response && response.data) {
+      dispatch(setSubPurchaseDetails(response.data as PaymentDetails));
+    } else {
+      dispatch(updateToast({ type: 'error', message: 'Unable to fetch subsscription purchase details!', open: true}))
     }
 
     dispatch(userLoading({ loading : false }));
