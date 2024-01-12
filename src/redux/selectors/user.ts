@@ -27,3 +27,7 @@ export const isUserSubscribed = () => {
 export const selectAllSubs = () => {
   return (state: RootState) => state.user?.allSubs;
 }
+
+export const selectUserLoading = () => {
+  return (state: RootState) => state.user?.loading;
+}
