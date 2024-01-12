@@ -22,8 +22,8 @@ const UserProfile:React.FC = () => {
 
   return (
     <div style={{ marginTop: '50px'}}>
-      <Row className="marginBottom20">
-        <Col md={24} sm={24} className="centerAlign">
+      <Row className="marginBottom20 centerAlign">
+        <Col md={24} sm={24}>
           <Avatar size={50} style={{ backgroundColor: '#fde3cf', color: '#f56a00' }}>U</Avatar>
         </Col>
       </Row>

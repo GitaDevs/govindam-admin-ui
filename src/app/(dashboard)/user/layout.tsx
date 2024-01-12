@@ -6,7 +6,6 @@ import {
   UserOutlined,
   ShoppingCartOutlined,
   DashboardOutlined,
-  CommentOutlined,
 } from '@ant-design/icons';
 import SideBar, { getItem } from '@/app/components/sidebar';
 import { MenuItem } from '@/app/types/sideBar';

@@ -10,10 +10,11 @@ import styles from './style.module.css';
 import bgV from '../../../public/bg_vertical.jpg';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { UserParams, UserRegisterParams, authenticateUser, fetchUserRole, registerNewUser } from '@/redux/thunk/user';
-import { selectUserRoleType, selectUserToken } from '@/redux/selectors/user';
+import { selectUserLoading, selectUserRoleType, selectUserToken } from '@/redux/selectors/user';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { COOK, CUSTOMER } from '@/redux/types/user';
 import { updateToast } from '@/redux/actions/app';
+import Spin from 'antd/es/spin';
 
 const style = {
   backgroundImage: `url('${bgV.src}')`,
@@ -34,6 +35,7 @@ const Auth: React.FC = (props) => {
   const [loginType, setLoginType] = useState<LoginType>(LoginType.SIGN_IN);
   const userToken = useAppSelector(selectUserToken());
   const userRoleType = useAppSelector(selectUserRoleType());
+  const isUserLoading = useAppSelector(selectUserLoading());
 
   useEffect(() => {
     if(searchParams.get('confirmed') !== 'true') return;
@@ -87,6 +89,15 @@ const Auth: React.FC = (props) => {
 
   return (
     <Row className={styles.main}>
+      {
+        isUserLoading && (
+          <div className={styles.spinCenter}>
+            <Space align='center'>
+              <Spin size="large" />
+            </Space>
+          </div>
+        )
+      }
       <Col md={11} style={style}>
       </Col>
 
@@ -158,7 +169,7 @@ const Auth: React.FC = (props) => {
 
               <Form.Item>
                 <Space direction="vertical" style={{ width: '100%' }}>
-                  <Button type="primary" htmlType="submit" block size='large'>
+                  <Button type="primary" htmlType="submit" block size='large' disabled={isUserLoading}>
                     {loginType === LoginType.SIGN_IN ? 'Sign In' : 'Sign Up'}
                   </Button>
                 </Space>

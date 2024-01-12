@@ -26,7 +26,8 @@ export const authenticateUser = (userParams: UserParams) => {
   return async (dispatch: Dispatch<AnyAction>, getState: () => RootState) => {
     dispatch(userLoading({ loading : true }));
 
-    const { response } = await apiEndPoint.post(API_ENDPOINTS.USER_AUTH, userParams);
+    const apiEndPointLocal = new ApiEndpoints(process.env.apiHost || "", null);
+    const { response } = await apiEndPointLocal.post(API_ENDPOINTS.USER_AUTH, userParams);
 
     if(response && response?.data.user) {
       // save success
