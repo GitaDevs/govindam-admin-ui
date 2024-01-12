@@ -1,7 +1,7 @@
 'use client'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { selectAllSubs } from '@/redux/selectors/user';
-import { getSubscriptionList } from '@/redux/thunk/user';
+import { getSubscriptionList, validateSubPaymentDetails } from '@/redux/thunk/user';
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import Statistic from 'antd/es/statistic';
 import Button from "antd/es/button";
@@ -9,6 +9,8 @@ import Card from "antd/es/card";
 import Row from "antd/es/row";
 import Col from "antd/es/col";
 import React, { useEffect } from 'react';
+import { updateModal } from '@/redux/actions/app';
+import PaymentDetailsPage from './paymentDetails';
 
 const SubList: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -34,8 +36,19 @@ const SubList: React.FC = () => {
     );
   }
 
-  const purchaseSubscription = (subId?: number) => {
+  const purchaseSubscriptionHandler = (subId?: number) => {
     if(!subId) return;
+
+    dispatch(validateSubPaymentDetails(subId));
+
+    dispatch(updateModal({ 
+      open: true,
+      data: {
+        title: 'Payment Details',
+        footer: null,
+        content: <PaymentDetailsPage subId={subId} />,
+      }
+    }));
   }
 
   const renderSubList = () => {
@@ -61,7 +74,7 @@ const SubList: React.FC = () => {
             className='marginTop20'
             type="primary"
             block
-            onClick={() => purchaseSubscription(sub?.id)}
+            onClick={() => purchaseSubscriptionHandler(sub?.id)}
           >
             Purchase Now
           </Button>          
@@ -72,7 +85,7 @@ const SubList: React.FC = () => {
 
   return (
     <div className={`paddinghDesktop50 paddinghMobile10 widthDesktop50`}>
-      <Row gutter={16}>
+      <Row>
         {renderSubList()}
       </Row>
     </div>

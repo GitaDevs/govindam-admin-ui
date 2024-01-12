@@ -1,7 +1,7 @@
 import { SubscritionsModel } from "@/models/subscriptions";
 import { User } from "../actions/user";
 import { initialState } from "../store/user";
-import { UserInfo, UserInitialState, UserSubs } from "../types/user";
+import { PaymentDetails, UserInfo, UserInitialState, UserSubs } from "../types/user";
 
 export function userReducer(state = initialState, action: any) {
   switch (action.type) {
@@ -28,6 +28,11 @@ export function userReducer(state = initialState, action: any) {
     case User.SET_ALL_SUBS: {
       const payload = action.payload as SubscritionsModel;
       return { ...state, allSubs: payload.subscriptions } as UserInitialState;
+    }
+
+    case User.SUB_PURCHASE_DETAILS: {
+      const payload = action.payload as PaymentDetails;
+      return { ...state, subPurchaseDetails: payload } as UserInitialState;
     }
 
     case User.USER_LOGOUT: {

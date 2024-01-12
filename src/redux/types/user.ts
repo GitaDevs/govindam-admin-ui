@@ -39,10 +39,18 @@ export interface Subscription {
   validDays: number;
 }
 
+export interface PaymentDetails {
+  totalAmount: number;
+  fineAmount: number;
+  taxAmount: number;
+  subAmount: number;
+}
+
 export interface UserInitialState {
   userinfo: Partial<UserInfo>;
   loading: boolean;
   userRole: Partial<UserRole>;
   userSubs: Partial<UserSubs>;
   allSubs: Partial<Subscription[]>;
+  subPurchaseDetails: Partial<PaymentDetails>;
 }
