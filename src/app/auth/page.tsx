@@ -7,7 +7,6 @@ import Col from "antd/es/col";
 import Input from "antd/es/input";
 import Space from "antd/es/space";
 import styles from './style.module.css';
-import bgV from '../../../public/bg_vertical.jpg';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { UserParams, UserRegisterParams, authenticateUser, fetchUserRole, registerNewUser } from '@/redux/thunk/user';
 import { selectUserLoading, selectUserRoleType, selectUserToken } from '@/redux/selectors/user';
@@ -15,9 +14,10 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { COOK, CUSTOMER } from '@/redux/types/user';
 import { updateToast } from '@/redux/actions/app';
 import Spin from 'antd/es/spin';
+import { CDN_IMAGES } from '../helpers/constants';
 
 const style = {
-  backgroundImage: `url('${bgV.src}')`,
+  backgroundImage: `url(${CDN_IMAGES.loginBg})`,
   backgroundPosition: 'center',
   backgroundSize: 'cover',
   height: '100%'

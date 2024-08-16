@@ -101,7 +101,7 @@ function getMealParams(type?: FetchMealType): Params {
       return {
         pagination: {
           page: 1,
-          pageSize: 3
+          pageSize: 4
         },
         populate: {
           meals: {

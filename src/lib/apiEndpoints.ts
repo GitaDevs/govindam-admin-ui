@@ -99,9 +99,13 @@ class ApiEndpoints {
   setToken(token: string | null) {
     this.token = token;
 
-    this.axios.defaults.headers.common = {
-      Authorization: `Bearer ${this.token}`,
-    };
+    if(!this.token) {
+      this.axios.defaults.headers.common = {};
+    } else {
+      this.axios.defaults.headers.common = {
+        Authorization: `Bearer ${this.token}`,
+      };
+    }
   }
 
   private handleError(error: AxiosError) {

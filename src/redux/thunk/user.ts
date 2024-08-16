@@ -68,14 +68,10 @@ export const registerNewUser = (user: UserRegisterParams) => {
   return async (dispatch: Dispatch<AnyAction>, getState: () => RootState) => {
     dispatch(userLoading({ loading : true }));
 
+    apiEndPoint.setToken(null);
     const { response } = await apiEndPoint.post(API_ENDPOINTS.USER_REGISTER, user);
 
     if(response && response.data) {
-      // const jwt = response.data.jwt;
-      // const userRole = response.data?.user?.role as UserRole;
-
-      // dispatch(setUserInfo({ ...response.data.user, jwt }));
-      // dispatch(setUerRole(userRole));
       dispatch(updateToast({ type: 'success', message: 'A Confirmation email has been sent!', open: true}))
     } else {
       dispatch(updateToast({ type: 'error', message: 'Unable to register user!', open: true}))
