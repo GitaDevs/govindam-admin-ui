@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { fetchMenuAndMeals } from '@/redux/thunk/menu';
 import { fetchSpecialOrders } from '@/redux/thunk/order';
 import { getUserActiveSubscription } from '@/redux/thunk/user';
-import { isUserSubscribed } from '@/redux/selectors/user';
+import { isUserSubscribed, selectUserLoading } from '@/redux/selectors/user';
 import { redirect } from 'next/navigation';
 
 const tabs = ["Upcoming Meals"]
@@ -15,13 +15,10 @@ const mealComponents = [UpcomingMeals]
 const CustomerDashboardHome: React.FC = () => {
   const dispatch = useAppDispatch();
   const userSubscribed = useAppSelector(isUserSubscribed());
+  const userLoading = useAppSelector(selectUserLoading());
 
   useEffect(() => {
-    dispatch(getUserActiveSubscription());
-  }, []);
-
-  useEffect(() => {
-    if(!userSubscribed) {
+    if(!userSubscribed && !userLoading) {
       redirect("/user/subscription");
     };
 

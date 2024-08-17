@@ -11,6 +11,7 @@ import Link from 'next/link';
 import { LogoutOutlined } from '@ant-design/icons';
 import { useAppDispatch } from '@/redux/hooks';
 import { logoutUser } from '@/redux/actions/user';
+import { redirect } from 'next/navigation';
 
 const { useBreakpoint } = Grid;
 const { Sider } = Layout;
@@ -38,6 +39,7 @@ const SideBar: React.FC<SidebarProps> = ({ menuItems }) => {
 
   const logout = () => {
     dispatch(logoutUser());
+    redirect("/auth")
   }
 
   const getSidebar = () => {

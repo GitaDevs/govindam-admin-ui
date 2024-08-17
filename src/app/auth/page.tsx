@@ -8,7 +8,7 @@ import Input from "antd/es/input";
 import Space from "antd/es/space";
 import styles from './style.module.css';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { UserParams, UserRegisterParams, authenticateUser, fetchUserRole, registerNewUser } from '@/redux/thunk/user';
+import { UserParams, UserRegisterParams, authenticateUser, fetchUserRole, getUserActiveSubscription, registerNewUser } from '@/redux/thunk/user';
 import { selectUserLoading, selectUserRoleType, selectUserToken } from '@/redux/selectors/user';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { COOK, CUSTOMER } from '@/redux/types/user';
@@ -47,7 +47,7 @@ const Auth: React.FC = (props) => {
     if(!userToken || userRoleType) return;
 
     dispatch(fetchUserRole());
-  }, [userToken])
+  }, [userToken]);
 
   useEffect(() => {
     if(!userToken || !userRoleType) return;
@@ -55,6 +55,7 @@ const Auth: React.FC = (props) => {
     if(userRoleType === COOK) {
       router.push("/cook/home");
     } else if(userRoleType === CUSTOMER) {
+      dispatch(getUserActiveSubscription());
       router.push("/user/home");
     }
   }, [userToken, userRoleType]);
