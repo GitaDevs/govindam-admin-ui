@@ -10,7 +10,7 @@ import { fetchMenuAndMeals } from '@/redux/thunk/menu';
 import { Meal } from '@/redux/types/menu';
 import { CUSTOMER } from '@/redux/types/user';
 import {  CheckCircleOutlined, CommentOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
+import Button from "antd/es/button";
 import Card from 'antd/es/card';
 import Descriptions from 'antd/es/descriptions';
 import TextArea from 'antd/es/input/TextArea';
