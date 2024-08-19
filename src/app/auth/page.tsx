@@ -8,9 +8,9 @@ import Input from "antd/es/input";
 import Space from "antd/es/space";
 import styles from './style.module.css';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { UserParams, UserRegisterParams, authenticateUser, fetchUserRole, getUserActiveSubscription, registerNewUser } from '@/redux/thunk/user';
+import { IUpdatePassword, UserParams, UserRegisterParams, authenticateUser, fetchUserRole, getUserActiveSubscription, registerNewUser, resetPassword, updatePassword } from '@/redux/thunk/user';
 import { selectUserLoading, selectUserRoleType, selectUserToken } from '@/redux/selectors/user';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { redirect, useRouter, useSearchParams } from 'next/navigation';
 import { COOK, CUSTOMER } from '@/redux/types/user';
 import { updateToast } from '@/redux/actions/app';
 import Spin from 'antd/es/spin';
@@ -25,8 +25,17 @@ const style = {
 
 enum LoginType {
   SIGN_IN = "sign_in",
-  SIGN_UP = "sign_up"
+  SIGN_UP = "sign_up",
+  RESET_PSWD = "reset_pswd",
+  UPDATE_PSWD = "update_pswd",
 }
+
+const buttonText: {[key in LoginType]: string } = {
+  [LoginType.SIGN_IN]: "Sign In",
+  [LoginType.SIGN_UP]: "Sign Up",
+  [LoginType.RESET_PSWD]: "Reset Password",
+  [LoginType.UPDATE_PSWD]: "Update Password",
+};
 
 const Auth: React.FC = (props) => {
   const dispatch = useAppDispatch();
@@ -38,8 +47,11 @@ const Auth: React.FC = (props) => {
   const isUserLoading = useAppSelector(selectUserLoading());
 
   useEffect(() => {
-    if(searchParams.get('confirmed') !== 'true') return;
+    if(searchParams.get('code')) {
+      setLoginType(LoginType.UPDATE_PSWD);
+    }
 
+    if(searchParams.get('confirmed') !== 'true') return;
     dispatch(updateToast({ type: 'success', message: 'Email is confirmed!', open: true}))
   }, []);
 
@@ -63,7 +75,7 @@ const Auth: React.FC = (props) => {
   const onFinish = (values: any) => {
     if(loginType === LoginType.SIGN_IN) {
       dispatch(authenticateUser(values as UserParams));
-    } else {
+    } else if(loginType === LoginType.SIGN_UP) {
       if(values.password !== values.confirmPassword) {
         dispatch(updateToast({ type: 'error', message: 'Password not matched!', open: true}))
         return;
@@ -77,6 +89,17 @@ const Auth: React.FC = (props) => {
       }
 
       dispatch(registerNewUser(user as UserRegisterParams));
+    } else if (loginType === LoginType.RESET_PSWD) {
+      dispatch(resetPassword(values.identifier))
+    } else if(loginType === LoginType.UPDATE_PSWD) {
+      const body: IUpdatePassword = {
+        code: searchParams.get('code') || '',
+        password: values.password,
+        passwordConfirmation: values.confirmPassword
+      };
+
+      dispatch(updatePassword(body));
+      redirect("/auth")
     }
   };
 
@@ -86,6 +109,142 @@ const Auth: React.FC = (props) => {
 
   const toggleLoginType = (type: LoginType) => {
     setLoginType(type);
+  }
+
+  const authActionTypeRender = (loginType: LoginType) => {
+    switch(loginType) {
+      case LoginType.SIGN_IN:
+        return <a href="#" onClick={e => toggleLoginType(LoginType.SIGN_UP)}>New here? Create Account</a>;
+      
+      case LoginType.SIGN_UP:
+        return <a href="#" onClick={e => toggleLoginType(LoginType.SIGN_IN)}>Already have an Account? Sign In</a>;
+
+      case LoginType.RESET_PSWD:
+        return <a href="#" onClick={e => toggleLoginType(LoginType.RESET_PSWD)}>Forgot Password</a>;
+    }
+  }
+  
+  const updatePasswordRender = () => {
+    return (
+      <Col md={24} xs={24}>
+        <Form
+          className={styles.loginForm}
+          name="basic"
+          initialValues={{ remember: true }}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          autoComplete="on"
+        >
+          <Form.Item
+            label=""
+            name="password"
+            rules={[{ required: true, message: 'Please input your password!' }]}
+          >
+            <Input.Password type="password" size="large" placeholder='Password' />
+          </Form.Item>
+
+          <Form.Item
+            label=""
+            name="confirmPassword"
+            rules={[{ required: true, message: 'Please input your confirm password!' }]}
+            >
+            <Input.Password type="password" size="large" placeholder='Confirm Password' />
+          </Form.Item>          
+
+          <Form.Item>
+            <Space direction="vertical" style={{ width: '100%' }}>
+              <Button type="primary" htmlType="submit" block size='large' disabled={isUserLoading}>
+                {buttonText[loginType]}
+              </Button>
+            </Space>
+          </Form.Item>
+        </Form>
+      </Col>      
+    );
+  }
+
+  const authScreenRender = () => {
+    return (
+      <Col md={24} xs={24}>
+        <Form
+          className={styles.loginForm}
+          name="basic"
+          initialValues={{ remember: true }}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          autoComplete="on"
+        >
+
+          {
+            loginType === LoginType.SIGN_UP && (
+              <Form.Item
+              label=""
+              name="username"
+              rules={[{ required: true, message: 'Please input your username!' }]}
+              >
+                <Input type="text" size="large" placeholder='Username' />
+              </Form.Item>
+            )
+          }
+
+          <Form.Item
+            label=""
+            name="identifier"
+            rules={[{ required: true, message: 'Please input your emailId!' }]}
+          >
+            <Input type='email' size='large' placeholder='Email'/>
+          </Form.Item>
+
+          {
+            loginType !== LoginType.RESET_PSWD && (
+              <Form.Item
+                label=""
+                name="password"
+                rules={[{ required: true, message: 'Please input your password!' }]}
+              >
+                <Input.Password type="password" size="large" placeholder='Password' />
+              </Form.Item>
+            )
+          }
+
+          {
+            loginType === LoginType.SIGN_UP && (
+              <Form.Item
+              label=""
+              name="confirmPassword"
+              rules={[{ required: true, message: 'Please input your confirm password!' }]}
+              >
+                <Input.Password type="password" size="large" placeholder='Confirm Password' />
+              </Form.Item>
+            )
+          }
+
+          {
+            loginType !== LoginType.RESET_PSWD && (
+              <div style={{marginBottom: '10px', textAlign: 'end'}}>
+                {authActionTypeRender(loginType)}
+              </div>  
+            )
+          }
+
+          <Form.Item>
+            <Space direction="vertical" style={{ width: '100%' }}>
+              <Button type="primary" htmlType="submit" block size='large' disabled={isUserLoading}>
+                {buttonText[loginType]}
+              </Button>
+            </Space>
+          </Form.Item>
+
+          <div style={{marginTop: '30px', textAlign: 'end'}}>
+            {
+              loginType === LoginType.RESET_PSWD ?
+              authActionTypeRender(LoginType.SIGN_IN) : 
+              authActionTypeRender(LoginType.RESET_PSWD)                                    
+            }
+          </div>
+        </Form>
+      </Col>
+    );
   }
 
   return (
@@ -110,73 +269,9 @@ const Auth: React.FC = (props) => {
             </h1>
           </Col>
 
-          <Col md={24} xs={24}>
-            <Form
-              className={styles.loginForm}
-              name="basic"
-              initialValues={{ remember: true }}
-              onFinish={onFinish}
-              onFinishFailed={onFinishFailed}
-              autoComplete="on"
-            >
-
-              {
-                loginType === LoginType.SIGN_UP && (
-                  <Form.Item
-                  label=""
-                  name="username"
-                  rules={[{ required: true, message: 'Please input your username!' }]}
-                  >
-                    <Input type="text" size="large" placeholder='Username' />
-                  </Form.Item>
-                )
-              }
-
-              <Form.Item
-                label=""
-                name="identifier"
-                rules={[{ required: true, message: 'Please input your emailId!' }]}
-              >
-                <Input type='email' size='large' placeholder='Email'/>
-              </Form.Item>
-
-              <Form.Item
-                label=""
-                name="password"
-                rules={[{ required: true, message: 'Please input your password!' }]}
-              >
-                <Input.Password type="password" size="large" placeholder='Password' />
-              </Form.Item>
-
-              {
-                loginType === LoginType.SIGN_UP && (
-                  <Form.Item
-                  label=""
-                  name="confirmPassword"
-                  rules={[{ required: true, message: 'Please input your confirm password!' }]}
-                  >
-                    <Input.Password type="password" size="large" placeholder='Confirm Password' />
-                  </Form.Item>
-                )
-              }
-
-              <div style={{marginBottom: '10px', textAlign: 'end'}}>
-                {
-                  loginType === LoginType.SIGN_IN ? 
-                  <a href="#" onClick={e => toggleLoginType(LoginType.SIGN_UP)}>New here? Create Account</a>
-                  : <a href="#" onClick={e => toggleLoginType(LoginType.SIGN_IN)}>Already have an Account? Sign In</a>
-                }
-              </div>
-
-              <Form.Item>
-                <Space direction="vertical" style={{ width: '100%' }}>
-                  <Button type="primary" htmlType="submit" block size='large' disabled={isUserLoading}>
-                    {loginType === LoginType.SIGN_IN ? 'Sign In' : 'Sign Up'}
-                  </Button>
-                </Space>
-              </Form.Item>
-            </Form>
-          </Col>
+          {
+            loginType === LoginType.UPDATE_PSWD ? updatePasswordRender() : authScreenRender()
+          }
         </Row>
       </Col>      
     </Row>

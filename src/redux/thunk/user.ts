@@ -141,3 +141,51 @@ export const validateSubPaymentDetails = (subId: string | number) => {
     dispatch(userLoading({ loading : false }));
   }
 }
+
+export const resetPassword = (email: string) => {
+  return async (dispatch: Dispatch<AnyAction>, getState: () => RootState) => {
+    dispatch(userLoading({ loading : true }));
+
+    const apiEndPointLocal = new ApiEndpoints(process.env.apiHost || "", null);
+    const { response } = await apiEndPointLocal.post(API_ENDPOINTS.USER_FORGOT_PSWD, { email });
+
+    if(response && response?.data?.ok) {
+      // save success
+      dispatch(updateToast({ type: 'success', message: 'An email has been sent to you!', open: true}))
+
+    } else {
+      dispatch(updateToast({ type: 'error', message: 'Unable to reset password!', open: true}))
+      // save error
+    }
+
+    dispatch(userLoading({ loading : false }));    
+  }
+}
+
+export interface IUpdatePassword {
+  code: string;
+  password: string;
+  passwordConfirmation: string;
+}
+
+export const updatePassword = (body: IUpdatePassword) => {
+  return async (dispatch: Dispatch<AnyAction>, getState: () => RootState) => {
+    dispatch(userLoading({ loading : true }));
+
+    const apiEndPointLocal = new ApiEndpoints(process.env.apiHost || "", null);
+    const { response } = await apiEndPointLocal.post(API_ENDPOINTS.USER_RESET_PSWD, body);
+
+    if(response && response?.data) {
+      // save success
+      const jwt = response.data.jwt;
+
+      dispatch(setUserInfo({ ...response.data.user, jwt }));
+      dispatch(updateToast({ type: 'success', message: 'Your password has been updated!', open: true}))
+    } else {
+      dispatch(updateToast({ type: 'error', message: 'Unable to reset password!', open: true}))
+      // save error
+    }
+
+    dispatch(userLoading({ loading : false }));        
+  }
+}

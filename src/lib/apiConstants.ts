@@ -3,6 +3,8 @@ const API_PREFIX = "api"
 export const API_ENDPOINTS = {
   // user requests
   USER_AUTH: `${API_PREFIX}/auth/local`,
+  USER_FORGOT_PSWD: `${API_PREFIX}/auth/forgot-password`,
+  USER_RESET_PSWD: `${API_PREFIX}/auth/reset-password`,
   USER_ME: `${API_PREFIX}/users/me`,
   USER_REGISTER: `${API_PREFIX}/auth/local/register`,
   USER_SUBS: `${API_PREFIX}/user-subs`,
