@@ -5,7 +5,8 @@ import theme from "antd/es/theme";
 import {
   UserOutlined,
   ShoppingCartOutlined,
-  DashboardOutlined,
+  CalendarOutlined,
+  HomeOutlined,
 } from '@ant-design/icons';
 import SideBar, { getItem } from '@/app/components/sidebar';
 import { MenuItem } from '@/app/types/sideBar';
@@ -18,11 +19,10 @@ const items: MenuItem[] = [
 ];
 
 const subItems: MenuItem[] = [
-  getItem('Home', '1', <DashboardOutlined />, "/user/home"),
-  getItem('Subscriptions', '2', <ShoppingCartOutlined />, "/user/subscription"),
-  // getItem('Order', '3', <ShoppingCartOutlined />, "/user/subscription"),
-  // getItem('Feedback', '4', <CommentOutlined />, "/user/feedback"),
-  getItem('Profile', '3', <UserOutlined />, "/user/profile"),
+  getItem('Home', '1', <HomeOutlined />, "/user/home"),
+  getItem('Subscriptions', '2', <CalendarOutlined />, "/user/subscription"),
+  getItem('Served Orders', '3', <ShoppingCartOutlined />, "/user/servedOrders"),
+  getItem('Profile', '4', <UserOutlined />, "/user/profile"),
 ];
 
 function CustomerDashboard({ children }: { children: React.ReactNode }) {

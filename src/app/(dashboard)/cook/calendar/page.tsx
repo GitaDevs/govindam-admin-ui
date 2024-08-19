@@ -2,7 +2,7 @@
 
 import DishModal from "@/app/presentors/dishModal";
 import { MealCalendarType } from "@/app/types/calendar";
-import { getMealDate, getMealDay } from "@/lib/helpers";
+import { capitalize, getMealDate, getMealDay } from "@/lib/helpers";
 import { updateModal } from "@/redux/actions/app";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { selectSevenDaysMeals } from "@/redux/selectors/menu";
@@ -53,6 +53,12 @@ const MenuCalendar: React.FC = () => {
       render: (text) => <>{text}</>,
     },
     {
+      title: 'MealTime',
+      dataIndex: 'mealTime',
+      key: 'mealTime',
+      render: (text) => <>{capitalize(text)}</>,
+    },
+    {
       title: 'Action',
       key: 'action',
       render: (_, { dishes }) => (
@@ -64,7 +70,7 @@ const MenuCalendar: React.FC = () => {
   ]
 
   const renderTable = () => {
-    let allMeals: Meal[] = []; 
+    let allMeals: Meal[] = [];
 
     sevenDaysMeals.forEach(menu => {
       allMeals = [...allMeals, ...(menu?.meals || [])];
@@ -76,6 +82,7 @@ const MenuCalendar: React.FC = () => {
         prepareDate: getMealDate(meal.servingDate),
         day: getMealDay(meal.servingDate),
         mealName: meal.name,
+        mealTime: meal.servingTime,
         dishes: meal.dishes
       } as MealCalendarType;
     })

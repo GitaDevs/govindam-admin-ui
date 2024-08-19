@@ -1,4 +1,4 @@
-import { EVENING, MORNING, NOON } from "@/redux/types/menu";
+import { EVENING, Meal, MORNING, NOON } from "@/redux/types/menu";
 import { DateTime } from "luxon";
 
 export const mealTimingLimits: {[key: string]: string} = {
@@ -25,4 +25,14 @@ export const capitalize = (str: string): string => {
   if(!str) return "";
 
   return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export const sortMealsInDescOrder = (meals: Meal[]) => {
+  meals.sort((a, b) => {
+    const dateComparison = new Date(b.servingDate).getTime() - new Date(a.servingDate).getTime();
+    if (dateComparison !== 0) return dateComparison;
+  
+    const timeOrder = { evening: 3, noon: 2, morning: 1 };
+    return timeOrder[b.servingTime] - timeOrder[a.servingTime];
+  });
 }

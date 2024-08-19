@@ -28,6 +28,21 @@ export function menuReducer(state = initialState, action: any) {
       return { ...state, sevenDaysMenu: menus } as MenuInitialState;
     }
 
+    case MENU.UPDATE_MEAL_RATING: {
+      const payload = action.payload;
+      const mealId = payload.mealId;
+      const rating = payload.rating;
+
+      const servedOrdersUpdated = state.servedOrders.map(menu => ({
+        ...menu,
+        meals: (menu?.meals || []).map(meal => 
+          meal.id === mealId ? { ...meal, rating } : meal
+        )
+      }));
+
+      return { ...state, servedOrders: servedOrdersUpdated } as MenuInitialState;
+    }
+
     default:
       return state
   }

@@ -129,7 +129,9 @@ function getMealParams(type?: FetchMealType): Params {
             pageSize: 7
           },
           meals: {
-            sort: ["serving_date:desc"],
+            sort: [
+              "serving_date:desc",
+            ],
             filters: {
               serving_date: {
                 $lte: DateTime.local().startOf('day')

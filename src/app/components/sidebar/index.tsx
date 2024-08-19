@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Grid from 'antd/es/grid';
 import Layout from 'antd/es/layout';
 import Menu from 'antd/es/menu';
@@ -12,6 +12,7 @@ import { LogoutOutlined } from '@ant-design/icons';
 import { useAppDispatch } from '@/redux/hooks';
 import { logoutUser } from '@/redux/actions/user';
 import { redirect } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 const { useBreakpoint } = Grid;
 const { Sider } = Layout;
@@ -36,6 +37,14 @@ const SideBar: React.FC<SidebarProps> = ({ menuItems }) => {
   const dispatch = useAppDispatch();
   const screens = useBreakpoint();
   const [collapsed, setCollapsed] = useState(true);
+  const [activeKey, setActiveKey] = useState<string[]>(['1']);
+
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const activeMenu = menuItems.find(item => item.href === pathname);
+    setActiveKey([activeMenu?.key || '1']);
+  }, [pathname]);
 
   const logout = () => {
     dispatch(logoutUser());
@@ -47,7 +56,7 @@ const SideBar: React.FC<SidebarProps> = ({ menuItems }) => {
       return (
         <Sider className={style.zIndex} collapsible={false} collapsed={false}>
           <div className="demo-logo-vertical" />
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+          <Menu theme="dark" mode="inline" selectedKeys={activeKey}>
             {
               menuItems.map(item => (
                   <Menu.Item 
@@ -72,7 +81,7 @@ const SideBar: React.FC<SidebarProps> = ({ menuItems }) => {
       return (
         <Sider className={style.zIndex} style={{ position:'absolute', height: '100%'}} zeroWidthTriggerStyle={{top: '-52px'}} collapsedWidth={0} collapsible={true} collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
           <div className="demo-logo-vertical" />
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+          <Menu theme="dark" selectedKeys={activeKey} mode="inline">
             {
               menuItems.map(item => (
                   <Menu.Item 

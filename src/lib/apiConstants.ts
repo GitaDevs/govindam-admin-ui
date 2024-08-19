@@ -20,4 +20,7 @@ export const API_ENDPOINTS = {
 
   // inventory alert
   INVENTORY_ALERT: `${API_PREFIX}/inventory-alerts`,
+
+  // ratings
+  RATINGS: `${API_PREFIX}/ratings`,
 }

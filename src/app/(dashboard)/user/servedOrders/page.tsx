@@ -2,8 +2,8 @@
 import ServedMeals from '@/app/components/servedMeals';
 import React from 'react';
 
-const CookDashboardServerOrders: React.FC = () => {
+const UserDashboardServerOrders: React.FC = () => {
   return <ServedMeals />;
 };
 
-export default CookDashboardServerOrders;
+export default UserDashboardServerOrders;
