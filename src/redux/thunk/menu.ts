@@ -77,7 +77,7 @@ function filterUpcomingMenus(menu: Menu, fetchMealType: FetchMealType): Menu {
     menu.menus.forEach(m => {
       m.meals = m.meals.filter(meal => {
         const servingTime = meal.servingTime;
-        if(currentTime.toFormat("yyyy-mm-dd") !== meal.servingDate) {
+        if(currentTime.toFormat("yyyy-MM-dd") !== meal.servingDate) {
           return true;
         }
 
