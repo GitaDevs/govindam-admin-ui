@@ -81,10 +81,12 @@
   justify-content: center;
 }
 
-.centerAlignTop {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
+@media screen and (min-width: 768px) {
+  .centerAlignTop {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+  }
 }
 
 .w-100 {

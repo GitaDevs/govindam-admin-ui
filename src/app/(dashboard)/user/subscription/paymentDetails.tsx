@@ -49,6 +49,7 @@ const PaymentDetailsPage: React.FC<IProps> = ({ subId }: IProps) => {
         type="primary"
         block
         onClick={() => makePurchaseHandler()}
+        disabled={true}
       >
         Make Purchase
       </Button>       
