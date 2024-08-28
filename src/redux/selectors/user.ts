@@ -9,7 +9,7 @@ export const selectUserId = () => {
 }
 
 export const selectUserToken = () => {
-  return (state: RootState) => state.user?.userinfo?.jwt
+  return window.localStorage.getItem('jwt')
 }
 
 export const selectUserRoleType = () => {

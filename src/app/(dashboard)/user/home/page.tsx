@@ -5,7 +5,6 @@ import UpcomingMeals from '../../../components/upcomingMeals';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { fetchMenuAndMeals } from '@/redux/thunk/menu';
 import { fetchSpecialOrders } from '@/redux/thunk/order';
-import { getUserActiveSubscription } from '@/redux/thunk/user';
 import { isUserSubscribed, selectUserLoading } from '@/redux/selectors/user';
 import { redirect } from 'next/navigation';
 

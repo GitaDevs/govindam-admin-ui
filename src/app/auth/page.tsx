@@ -42,9 +42,13 @@ const Auth: React.FC = (props) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [loginType, setLoginType] = useState<LoginType>(LoginType.SIGN_IN);
-  const userToken = useAppSelector(selectUserToken());
   const userRoleType = useAppSelector(selectUserRoleType());
   const isUserLoading = useAppSelector(selectUserLoading());
+  const [userToken, setUserToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    setUserToken(localStorage.getItem('jwt'));
+  }, []);
 
   useEffect(() => {
     if(searchParams.get('code')) {

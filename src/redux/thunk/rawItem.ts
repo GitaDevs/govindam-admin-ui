@@ -13,7 +13,7 @@ export const fetchAllRawItems = () => {
   return async (dispatch: Dispatch<AnyAction>, getState: () => RootState) => {
     dispatch(rawItemsLoading({ loading : true }));
 
-    apiEndPoint.setToken(getState().user.userinfo.jwt || "");
+    apiEndPoint.setToken(window.localStorage.getItem('jwt') || "");
 
     const { response } = await apiEndPoint.get(API_ENDPOINTS.RAW_ITEMS);
 
@@ -37,7 +37,7 @@ export const createAlertForRawItem = (body: IAlertCreateBody) => {
   return async (dispatch: Dispatch<AnyAction>, getState: () => RootState) => {
     dispatch(rawItemsLoading({ loading : true }));
 
-    apiEndPoint.setToken(getState().user.userinfo.jwt || "");
+    apiEndPoint.setToken(window.localStorage.getItem('jwt') || "");
     const { response } = await apiEndPoint.post(API_ENDPOINTS.INVENTORY_ALERT, body || {});
 
     if(response && response.data) {

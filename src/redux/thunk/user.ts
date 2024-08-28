@@ -32,7 +32,7 @@ export const authenticateUser = (userParams: UserParams) => {
     if(response && response?.data.user) {
       // save success
       const jwt = response.data.jwt;
-
+      window.localStorage.setItem('jwt', jwt);
       dispatch(setUserInfo({ ...response.data.user, jwt }));
       dispatch(updateToast({ type: 'success', message: 'Logged In!', open: true}))
     } else {
@@ -46,7 +46,7 @@ export const authenticateUser = (userParams: UserParams) => {
 
 export const fetchUserRole = () => {
   return async (dispatch: Dispatch<AnyAction>, getState: () => RootState) => {
-    apiEndPoint.setToken(getState().user.userinfo?.jwt || "");
+    apiEndPoint.setToken(window.localStorage.getItem('jwt') || "");
 
     dispatch(userLoading({ loading : true }));
 
@@ -86,7 +86,7 @@ export const getUserActiveSubscription = () => {
   return async (dispatch: Dispatch<AnyAction>, getState: () => RootState) => {
     dispatch(userLoading({ loading : true }));
 
-    apiEndPoint.setToken(getState().user.userinfo?.jwt || "");
+    apiEndPoint.setToken(window.localStorage.getItem('jwt') || "");
 
     const { response } = await apiEndPoint.get(API_ENDPOINTS.USER_SUBS);
 
@@ -111,7 +111,7 @@ export const getSubscriptionList = () => {
   return async (dispatch: Dispatch<AnyAction>, getState: () => RootState) => {
     dispatch(userLoading({ loading : true }));
 
-    apiEndPoint.setToken(getState().user.userinfo?.jwt || "");
+    apiEndPoint.setToken(window.localStorage.getItem('jwt') || "");
 
     const { response } = await apiEndPoint.get(API_ENDPOINTS.SUBS);
 
@@ -129,7 +129,7 @@ export const validateSubPaymentDetails = (subId: string | number) => {
   return async (dispatch: Dispatch<AnyAction>, getState: () => RootState) => {
     dispatch(userLoading({ loading : true }));
 
-    apiEndPoint.setToken(getState().user.userinfo?.jwt || "");
+    apiEndPoint.setToken(window.localStorage.getItem('jwt') || "");
     const { response } = await apiEndPoint.post(API_ENDPOINTS.SUB_PURCHASE_VALIDATE, { subId });
 
     if(response && response.data) {
@@ -179,6 +179,7 @@ export const updatePassword = (body: IUpdatePassword) => {
       // save success
       const jwt = response.data.jwt;
 
+      window.localStorage.setItem('jwt', jwt);
       dispatch(setUserInfo({ ...response.data.user, jwt }));
       dispatch(updateToast({ type: 'success', message: 'Your password has been updated!', open: true}))
     } else {

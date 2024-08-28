@@ -21,7 +21,7 @@ export const fetchMenuAndMeals = (fetchMealType?: FetchMealType, mealParams?: Pa
   return async (dispatch: Dispatch<AnyAction>, getState: () => RootState) => {
     dispatch(menuLoading({ loading : true }));
 
-    apiEndPoint.setToken(getState().user.userinfo?.jwt || "");
+    apiEndPoint.setToken(window.localStorage.getItem('jwt') || "");
 
     const params =  mealParams || getMealParams(fetchMealType);
     const { response } = await apiEndPoint.get(API_ENDPOINTS.MENUS, params);
