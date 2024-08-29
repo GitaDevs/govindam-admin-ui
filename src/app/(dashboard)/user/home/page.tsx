@@ -20,6 +20,10 @@ const CustomerDashboardHome: React.FC = () => {
     if(!userSubscribed && !userLoading) {
       redirect("/user/subscription");
     };
+  }, [userSubscribed, userLoading]);
+
+  useEffect(() => {
+    if(!userSubscribed) return;
 
     dispatch(fetchMenuAndMeals("upcoming"));
     dispatch(fetchSpecialOrders());
