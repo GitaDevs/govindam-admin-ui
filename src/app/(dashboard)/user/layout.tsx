@@ -22,7 +22,7 @@ const items: MenuItem[] = [
 const subscribedItems: MenuItem[] = [
   getItem('Home', '1', <HomeOutlined />, "/user/home"),
   getItem('Subscriptions', '2', <CalendarOutlined />, "/user/subscription"),
-  getItem('Served Orders', '3', <ShoppingCartOutlined />, "/user/servedOrders"),
+  getItem('Ratings', '3', <ShoppingCartOutlined />, "/user/ratings"),
   getItem('Profile', '4', <UserOutlined />, "/user/profile"),
 ];
 

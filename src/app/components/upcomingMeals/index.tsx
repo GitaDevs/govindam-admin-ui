@@ -149,7 +149,7 @@ const UpcomingMeals: React.FC = () => {
       allMeals = [...allMeals, ...(menu?.meals || [])];
     })
 
-    return allMeals.map((meal, index) => (
+    return allMeals.slice(0, 4).map((meal, index) => (
       <Col 
         xs={24}
         sm={24}
