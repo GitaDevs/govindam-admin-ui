@@ -10,6 +10,8 @@ import {
 } from '@ant-design/icons';
 import SideBar from '@/app/components/sidebar';
 import { useRouter } from 'next/navigation';
+import { useAppSelector } from '@/redux/hooks';
+import { selectUserToken } from '@/redux/selectors/user';
 
 const menuItems = [
   { key: '1', label: 'Home', icon: <HomeOutlined />, href: "/cook/home" },
@@ -21,13 +23,7 @@ const menuItems = [
 
 function CookDashboardLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const [userToken, setUserToken] = React.useState<string | null>(null);
-
-  React.useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setUserToken(localStorage.getItem('jwt'));
-    }
-  }, []);
+  const userToken = useAppSelector(selectUserToken());
 
   useEffect(() => {
     if(!userToken) router.replace("/auth");

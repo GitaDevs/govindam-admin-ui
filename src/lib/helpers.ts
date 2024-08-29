@@ -36,7 +36,3 @@ export const sortMealsInDescOrder = (meals: Meal[]) => {
     return timeOrder[b.servingTime] - timeOrder[a.servingTime];
   });
 }
-
-export const getUserToken = () => {
-  return window.localStorage.getItem('jwt')
-}

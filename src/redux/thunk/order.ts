@@ -13,7 +13,7 @@ export const fetchSpecialOrders = () => {
   return async (dispatch: Dispatch<AnyAction>, getState: () => RootState) => {
     dispatch(orderLoading({ loading: true }));
 
-    apiEndPoint.setToken(window.localStorage.getItem('jwt') || "");
+    apiEndPoint.setToken(getState().user.userinfo?.jwt || "");
 
     const { response } = await apiEndPoint.get(API_ENDPOINTS.SPECIAL_ORDERS);
 
@@ -39,7 +39,7 @@ export const updateSpecialOrderThunk = (id: string, updateOrder: IOrderUpdate) =
   return async (dispatch: Dispatch<AnyAction>, getState: () => RootState) => {
     dispatch(orderLoading({ loading: true }));
 
-    apiEndPoint.setToken(window.localStorage.getItem('jwt') || "");
+    apiEndPoint.setToken(getState().user.userinfo?.jwt || "");
     const { response } = await apiEndPoint.put(`${API_ENDPOINTS.SPECIAL_ORDERS}/${id}`, { data: updateOrder });
 
     if(response && response.data) {
@@ -64,7 +64,7 @@ export const createSpecialOrder = (body: IOrderCreate) => {
   return async (dispatch: Dispatch<AnyAction>, getState: () => RootState) => {
     dispatch(orderLoading({ loading: true }));
 
-    apiEndPoint.setToken(window.localStorage.getItem('jwt') || "");
+    apiEndPoint.setToken(getState().user.userinfo?.jwt || "");
     const { response } = await apiEndPoint.post(`${API_ENDPOINTS.SPECIAL_ORDERS}`, { data: body });
 
     if(response && response.data) {

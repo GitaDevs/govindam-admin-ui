@@ -44,11 +44,7 @@ const Auth: React.FC = (props) => {
   const [loginType, setLoginType] = useState<LoginType>(LoginType.SIGN_IN);
   const userRoleType = useAppSelector(selectUserRoleType());
   const isUserLoading = useAppSelector(selectUserLoading());
-  const [userToken, setUserToken] = useState<string | null>(null);
-
-  useEffect(() => {
-    setUserToken(localStorage.getItem('jwt'));
-  }, []);
+  const userToken = useAppSelector(selectUserToken());
 
   useEffect(() => {
     if(searchParams.get('code')) {

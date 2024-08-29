@@ -18,7 +18,7 @@ const apiEndPoint = new ApiEndpoints(process.env.apiHost || "", null);
 
 export const fetchFeedbacks = () => {
   return async (dispatch: Dispatch<AnyAction>, getState: () => RootState) => {
-    apiEndPoint.setToken(window.localStorage.getItem('jwt') || "");
+    apiEndPoint.setToken(getState().user.userinfo?.jwt || "");
 
     dispatch(feedbackLoading({ loading : true }));
 
@@ -37,7 +37,7 @@ export const fetchFeedbacks = () => {
 
 export const createFeedback = (body: ICreateFeedbackBody) => {
   return async (dispatch: Dispatch<AnyAction>, getState: () => RootState) => {
-    apiEndPoint.setToken(window.localStorage.getItem('jwt') || "");
+    apiEndPoint.setToken(getState().user.userinfo?.jwt || "");
 
     dispatch(feedbackLoading({ loading : true }));
 

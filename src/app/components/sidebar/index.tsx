@@ -47,7 +47,6 @@ const SideBar: React.FC<SidebarProps> = ({ menuItems }) => {
   }, [pathname, menuItems]);
 
   const logout = () => {
-    window.localStorage.removeItem('jwt');
     dispatch(logoutUser());
     redirect("/auth")
   }
