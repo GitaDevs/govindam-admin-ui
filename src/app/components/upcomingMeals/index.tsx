@@ -247,7 +247,11 @@ const UpcomingMeals: React.FC = () => {
   }
 
   if(isMenuLoading) {
-    return <LoadingOutlined />
+    return (
+      <div className="centerAlign">
+        <LoadingOutlined />
+      </div>
+    )
   }
 
   return (

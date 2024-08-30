@@ -15,6 +15,7 @@ import { COOK, CUSTOMER } from '@/redux/types/user';
 import { updateToast } from '@/redux/actions/app';
 import Spin from 'antd/es/spin';
 import { CDN_IMAGES } from '../helpers/constants';
+import { userLoading } from '@/redux/actions/user';
 
 const style = {
   backgroundImage: `url(${CDN_IMAGES.loginBg})`,
@@ -47,6 +48,7 @@ const Auth: React.FC = (props) => {
   const userToken = useAppSelector(selectUserToken());
 
   useEffect(() => {
+    dispatch(userLoading({ loading : false }));
     if(searchParams.get('code')) {
       setLoginType(LoginType.UPDATE_PSWD);
     }
