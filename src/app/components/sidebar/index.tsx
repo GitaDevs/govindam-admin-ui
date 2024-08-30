@@ -51,6 +51,12 @@ const SideBar: React.FC<SidebarProps> = ({ menuItems }) => {
     redirect("/auth")
   }
 
+  const handleMenuClick = () => {
+    if (!isLargeScreen(screens as ScreenSize) && !collapsed) {
+      setCollapsed(true);
+    }
+  };
+
   const getSidebar = () => {
     if(isLargeScreen(screens as ScreenSize)) {
       return (
@@ -79,7 +85,7 @@ const SideBar: React.FC<SidebarProps> = ({ menuItems }) => {
       );
     } else {
       return (
-        <Sider className={style.zIndex} style={{ position:'absolute', height: '100%'}} zeroWidthTriggerStyle={{top: '-52px'}} collapsedWidth={0} collapsible={true} collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+        <Sider className={style.zIndex} style={{ position:'absolute', height: '100%'}} zeroWidthTriggerStyle={{top: '-52px'}} collapsedWidth={0} collapsible={true} collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} onClick={handleMenuClick}>
           <div className="demo-logo-vertical" />
           <Menu theme="dark" selectedKeys={activeKey} mode="inline">
             {
@@ -98,7 +104,7 @@ const SideBar: React.FC<SidebarProps> = ({ menuItems }) => {
               <Link href={"/auth" || ""} onClick={logout}>
                 {"Logout"}
               </Link>
-            </Menu.Item>            
+            </Menu.Item>
           </Menu>          
         </Sider>
       )

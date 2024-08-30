@@ -44,6 +44,11 @@ const PaymentDetailsPage: React.FC<IProps> = ({ subId }: IProps) => {
         <Descriptions.Item label="Total Amount" contentStyle={{fontWeight: 'bold'}}>{`Rs. ${paymentDetail?.totalAmount || 0}`}</Descriptions.Item>
       </Descriptions>
 
+      <div className="marginTop10">
+        <strong>Note:</strong> Please reach out to the accounts department to process your payment and initiate your subscription.
+        Online payment is not available at the moment.
+      </div>
+
       <Button
         className='marginTop20'
         type="primary"

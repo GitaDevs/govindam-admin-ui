@@ -7,9 +7,9 @@ import { Dish, Meal } from "@/redux/types/menu";
 import { capitalize, getMealDate, getMealDay } from "@/lib/helpers";
 import { selectUserRoleType } from "@/redux/selectors/user";
 import { COOK, CUSTOMER } from "@/redux/types/user";
-import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
+import { CheckCircleOutlined, CloseCircleOutlined, CommentOutlined, DownOutlined, MoreOutlined } from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { createSpecialOrder } from "@/redux/thunk/order";
 import { selectSpecialOrders } from "@/redux/selectors/order";
 import { SpecialOrder } from "@/redux/types/order";
@@ -21,6 +21,11 @@ import Row from "antd/es/row";
 import Input from "antd/es/input";
 import List from "antd/es/list";
 import Tag from "antd/es/tag";
+import Dropdown from "antd/es/dropdown";
+import Space from "antd/es/space";
+import { MenuProps } from "antd";
+import Rating from "../rating";
+import { fetchFeedbacks } from "@/redux/thunk/feedback";
 
 export const WEEK_DAYS = [
   "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"
@@ -33,6 +38,12 @@ const UpcomingMeals: React.FC = () => {
   const userRole = useAppSelector(selectUserRoleType());
   const mealInstRef = useRef(null);
   const healthIssueRef = useRef(null);
+
+  useEffect(() => {
+    if(userRole === CUSTOMER) {
+      dispatch(fetchFeedbacks());
+    }
+  }, []);
 
   const openDishModal = (dishes: Dish[]) => {
     dispatch(updateModal({ 
@@ -112,19 +123,19 @@ const UpcomingMeals: React.FC = () => {
 
     if(orderExist.isCancelled) {
       return (
-        <div className="floatRight marginTop10">
+        <div className="marginTop10">
           <Tag color="orange">Cancelled</Tag>
         </div>
       )
     } else if(orderExist.isAccepted) {
       return (
-        <div className="floatRight marginTop10">
+        <div className="marginTop10">
           <Tag color="green">Order Accepted By Cook</Tag>
         </div>        
       )
     } else {
       return (
-        <div className="floatRight marginTop10">
+        <div className="marginTop10">
           <Tag color="yellow">Waiting for Cook to Accept</Tag>
         </div>
       )
@@ -140,6 +151,44 @@ const UpcomingMeals: React.FC = () => {
 
     if(render) return renderOrderTag(orderExist);
     return true;
+  }
+  
+  const getMealActions = (meal: Meal) => {
+    if(userRole === COOK) return "";
+
+    const items: MenuProps['items'] = [
+      {
+        key: '1',
+        label: (
+          <div role="button" onClick={() => updateOrder(meal.id, "request")}>
+            Request Health Order
+          </div>
+        ),
+      },
+      {
+        key: '2',
+        label: (
+          <div role="button" onClick={() => updateOrder(meal.id, "cancel")}>
+            Cancel Order
+          </div>
+        ),
+      },
+    ];
+
+    return (
+      <Space wrap>
+        <Dropdown 
+          disabled={!!isMealProcessed(meal.id)} 
+          trigger={['click']} menu={{ items }} 
+          placement="bottomLeft"
+        >
+          <Button
+            icon={<MoreOutlined />}
+          >
+          </Button>
+        </Dropdown>
+      </Space>
+    );
   }
 
   const renderMeals = () => {
@@ -158,8 +207,8 @@ const UpcomingMeals: React.FC = () => {
         {...getPropsByRole(meal)}
       >
         <Card 
-          title={`${getMealDate(meal.servingDate)}(${getMealDay(meal.servingDate)})`}
-          extra={`${capitalize(meal.servingTime)}`} 
+          title={`${getMealDate(meal.servingDate)}(${capitalize(meal.servingTime)})`}
+          extra={getMealActions(meal)} 
           bordered={true}
         >
           <Descriptions bordered>
@@ -188,31 +237,9 @@ const UpcomingMeals: React.FC = () => {
               </List>
             </Descriptions.Item>
           </Descriptions>
-          
-          {
-            userRole === CUSTOMER && !isMealProcessed(meal.id) && (
-              <div className={`marginTop20 floatRight`}>
-                <Button
-                  className={`marginRight10`} 
-                  type="primary" 
-                  icon={<CheckCircleOutlined />}
-                  onClick={() => updateOrder(meal.id, "request")}
-                >
-                  Request Health Order
-                </Button>    
-                <Button
-                  type="primary" 
-                  icon={<CloseCircleOutlined />} 
-                  danger
-                  onClick={() => updateOrder(meal.id, "cancel")}
-                >
-                  Cancel
-                </Button>
-              </div>
-            )
-          }
 
           {isMealProcessed(meal.id, true)}
+          <Rating meal={meal} />
         </Card>
       </Col>
     ))

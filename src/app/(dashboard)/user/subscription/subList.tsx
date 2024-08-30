@@ -24,14 +24,14 @@ const SubList: React.FC = () => {
     if(!included) {
       return (
         <div>
-          <CloseCircleOutlined color='red'/> {name}
+          <CloseCircleOutlined style={{ color: 'red' }}/> {name}
         </div>
       );
     }
 
     return (
       <div>
-        <CheckCircleOutlined color={'green'} /> {name}
+        <CheckCircleOutlined style={{ color: 'green' }} /> {name}
       </div>
     );
   }
@@ -59,6 +59,7 @@ const SubList: React.FC = () => {
 
           <div className='marginTop10'>
             {renderMealIncluded("Breakfast", sub?.breakfast || false)}
+            {renderMealIncluded("Lunch", sub?.lunch || false)}
             {renderMealIncluded("Dinner", sub?.dinner || false)}
           </div>
 

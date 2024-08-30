@@ -53,7 +53,7 @@ export const dispatchMenuActions = (dispatch: Dispatch<AnyAction>, mealType: Fet
 
 function filterUpcomingMenus(menu: Menu, fetchMealType: FetchMealType): Menu {
   const currentTime = DateTime.local();
-  const morningTime = currentTime.set({ hour: 9, minute: 0, second: 0 });
+  const morningTime = currentTime.set({ hour: 12, minute: 0, second: 0 });
   const eveningTime = currentTime.set({ hour: 21, minute: 0, second: 0 });
 
   if(fetchMealType === UPCOMING || fetchMealType === SEVEN_DAYS) {

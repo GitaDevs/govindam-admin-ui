@@ -7,11 +7,11 @@ export const mealTimingLimits: {[key: string]: string} = {
   [EVENING]: "09:00 PM"
 }
 
-export const getMealDay = (mealDateTime: string): string => {
+export const getMealDay = (mealDateTime: string, short = false): string => {
   if(!mealDateTime) return "";
   const mealTime = DateTime.fromISO(mealDateTime);
 
-  return mealTime.weekdayLong || "";
+  return short ? mealTime.weekdayShort || "": mealTime.weekdayLong || "";
 }
 
 export const getMealDate = (mealDateTime: string): string => {

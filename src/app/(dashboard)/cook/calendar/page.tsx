@@ -41,12 +41,6 @@ const MenuCalendar: React.FC = () => {
       render: (date: string) => <>{date}</>,
     },
     {
-      title: 'Day',
-      dataIndex: 'day',
-      key: 'day',
-      render: (text) => <>{text}</>,
-    },
-    {
       title: 'MealName',
       dataIndex: 'mealName',
       key: 'mealName',
@@ -79,8 +73,7 @@ const MenuCalendar: React.FC = () => {
     const data: MealCalendarType[] = allMeals.map((meal, index) => {
       return {
         key: "" + index,
-        prepareDate: getMealDate(meal.servingDate),
-        day: getMealDay(meal.servingDate),
+        prepareDate: `${getMealDate(meal.servingDate)} (${getMealDay(meal.servingDate, true)})`,
         mealName: meal.name,
         mealTime: meal.servingTime,
         dishes: meal.dishes

@@ -5,7 +5,6 @@ export type WeekDay = "Sunday" | "Monday" | "Tuesday" | "Thursday" | "friday" | 
 export interface MealCalendarType {
   key: string;
   prepareDate: string;
-  day: WeekDay;
   mealName: string;
   dishes?: Dish[];
 }
