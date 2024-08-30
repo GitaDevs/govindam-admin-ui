@@ -11,3 +11,7 @@ export const selectServedOrders = () => {
 export const selectSevenDaysMeals = () => {
   return (state: RootState) => state.menu?.sevenDaysMenu
 }
+
+export const selectMenuLoading = () => {
+  return (state: RootState) => state.menu?.loading
+}

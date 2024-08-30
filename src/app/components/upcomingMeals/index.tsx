@@ -2,12 +2,12 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { updateModal } from "@/redux/actions/app";
 import DishModal from "@/app/presentors/dishModal";
-import { selectUpcomingMeals } from "@/redux/selectors/menu";
+import { selectMenuLoading, selectUpcomingMeals } from "@/redux/selectors/menu";
 import { Dish, Meal } from "@/redux/types/menu";
 import { capitalize, getMealDate, getMealDay } from "@/lib/helpers";
 import { selectUserRoleType } from "@/redux/selectors/user";
 import { COOK, CUSTOMER } from "@/redux/types/user";
-import { CheckCircleOutlined, CloseCircleOutlined, CommentOutlined, DownOutlined, MoreOutlined } from "@ant-design/icons";
+import { CheckCircleOutlined, CloseCircleOutlined, CommentOutlined, DownOutlined, LoadingOutlined, MoreOutlined } from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
 import { useEffect, useRef } from "react";
 import { createSpecialOrder } from "@/redux/thunk/order";
@@ -36,6 +36,7 @@ const UpcomingMeals: React.FC = () => {
   const upcomingMeals = useAppSelector(selectUpcomingMeals());
   const orders = useAppSelector(selectSpecialOrders());
   const userRole = useAppSelector(selectUserRoleType());
+  const isMenuLoading = useAppSelector(selectMenuLoading());
   const mealInstRef = useRef(null);
   const healthIssueRef = useRef(null);
 
@@ -243,6 +244,10 @@ const UpcomingMeals: React.FC = () => {
         </Card>
       </Col>
     ))
+  }
+
+  if(isMenuLoading) {
+    return <LoadingOutlined />
   }
 
   return (

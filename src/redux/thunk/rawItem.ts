@@ -11,7 +11,7 @@ const apiEndPoint = new ApiEndpoints(process.env.apiHost || "", null);
 
 export const fetchAllRawItems = () => {
   return async (dispatch: Dispatch<AnyAction>, getState: () => RootState) => {
-    dispatch(rawItemsLoading({ loading : true }));
+    dispatch(rawItemsLoading(true));
 
     apiEndPoint.setToken(getState().user.userinfo?.jwt || "");
 
@@ -24,7 +24,7 @@ export const fetchAllRawItems = () => {
       dispatch(updateToast({ type: 'error', message: `Unable to fetch raw items!`, open: true}))
     }
 
-    dispatch(rawItemsLoading({ loading : false }));
+    dispatch(rawItemsLoading(false));
   }
 }
 
@@ -35,7 +35,7 @@ interface IAlertCreateBody {
 
 export const createAlertForRawItem = (body: IAlertCreateBody) => {
   return async (dispatch: Dispatch<AnyAction>, getState: () => RootState) => {
-    dispatch(rawItemsLoading({ loading : true }));
+    dispatch(rawItemsLoading(true));
 
     apiEndPoint.setToken(getState().user.userinfo?.jwt || "");
     const { response } = await apiEndPoint.post(API_ENDPOINTS.INVENTORY_ALERT, body || {});
@@ -46,6 +46,6 @@ export const createAlertForRawItem = (body: IAlertCreateBody) => {
       dispatch(updateToast({ type: 'error', message: `Unable raise alert!`, open: true}))
     }
 
-    dispatch(rawItemsLoading({ loading : false }));
+    dispatch(rawItemsLoading(false));
   }
 }

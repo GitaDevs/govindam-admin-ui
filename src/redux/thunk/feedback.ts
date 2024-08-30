@@ -20,7 +20,7 @@ export const fetchFeedbacks = () => {
   return async (dispatch: Dispatch<AnyAction>, getState: () => RootState) => {
     apiEndPoint.setToken(getState().user.userinfo?.jwt || "");
 
-    dispatch(feedbackLoading({ loading : true }));
+    dispatch(feedbackLoading(true));
 
     const { response } = await apiEndPoint.get(API_ENDPOINTS.RATINGS, { populate: { meals: true } });
 
@@ -31,7 +31,7 @@ export const fetchFeedbacks = () => {
       dispatch(updateToast({ type: 'error', message: 'Unable to get user feedbacks!', open: true}))
     }
 
-    dispatch(feedbackLoading({ loading : false }));
+    dispatch(feedbackLoading(false));
   }
 }
 
@@ -39,7 +39,7 @@ export const createFeedback = (body: ICreateFeedbackBody) => {
   return async (dispatch: Dispatch<AnyAction>, getState: () => RootState) => {
     apiEndPoint.setToken(getState().user.userinfo?.jwt || "");
 
-    dispatch(feedbackLoading({ loading : true }));
+    dispatch(feedbackLoading(true));
 
     const { response } = await apiEndPoint.post(API_ENDPOINTS.RATINGS, { data: body });
 
@@ -54,6 +54,6 @@ export const createFeedback = (body: ICreateFeedbackBody) => {
       dispatch(updateToast({ type: 'error', message: 'Unable to post your feedback!', open: true}))
     }
 
-    dispatch(feedbackLoading({ loading : false }));
+    dispatch(feedbackLoading(false));
   }
 }

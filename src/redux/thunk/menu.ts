@@ -19,7 +19,7 @@ type FetchMealType = typeof UPCOMING | typeof SERVED | typeof SEVEN_DAYS;
 
 export const fetchMenuAndMeals = (fetchMealType?: FetchMealType, mealParams?: Params) => {
   return async (dispatch: Dispatch<AnyAction>, getState: () => RootState) => {
-    dispatch(menuLoading({ loading : true }));
+    dispatch(menuLoading(true));
 
     apiEndPoint.setToken(getState().user.userinfo?.jwt || "");
 
@@ -33,7 +33,7 @@ export const fetchMenuAndMeals = (fetchMealType?: FetchMealType, mealParams?: Pa
       dispatch(updateToast({ type: 'error', message: `Unable to fetch menus!`, open: true}))
     }
 
-    dispatch(menuLoading({ loading : false }));
+    dispatch(menuLoading(false));
   }
 }
 

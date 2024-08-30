@@ -11,7 +11,7 @@ const apiEndPoint = new ApiEndpoints(process.env.apiHost || "", null);
 
 export const fetchSpecialOrders = () => {
   return async (dispatch: Dispatch<AnyAction>, getState: () => RootState) => {
-    dispatch(orderLoading({ loading: true }));
+    dispatch(orderLoading(true));
 
     apiEndPoint.setToken(getState().user.userinfo?.jwt || "");
 
@@ -25,7 +25,7 @@ export const fetchSpecialOrders = () => {
       // dispatch(updateToast({ type: 'error', message: `Unable to fetch special orders!`, open: true}))
     }
 
-    dispatch(orderLoading({ loading : false }));
+    dispatch(orderLoading(false));
   }
 }
 
@@ -37,7 +37,7 @@ export interface IOrderUpdate {
 
 export const updateSpecialOrderThunk = (id: string, updateOrder: IOrderUpdate) => {
   return async (dispatch: Dispatch<AnyAction>, getState: () => RootState) => {
-    dispatch(orderLoading({ loading: true }));
+    dispatch(orderLoading(true));
 
     apiEndPoint.setToken(getState().user.userinfo?.jwt || "");
     const { response } = await apiEndPoint.put(`${API_ENDPOINTS.SPECIAL_ORDERS}/${id}`, { data: updateOrder });
@@ -49,7 +49,7 @@ export const updateSpecialOrderThunk = (id: string, updateOrder: IOrderUpdate) =
       dispatch(updateToast({ type: 'error', message: `Unable to update special order!`, open: true}))
     }
 
-    dispatch(orderLoading({ loading: false }));
+    dispatch(orderLoading(false));
   }
 }
 
@@ -62,7 +62,7 @@ export interface IOrderCreate {
 
 export const createSpecialOrder = (body: IOrderCreate) => {
   return async (dispatch: Dispatch<AnyAction>, getState: () => RootState) => {
-    dispatch(orderLoading({ loading: true }));
+    dispatch(orderLoading(true));
 
     apiEndPoint.setToken(getState().user.userinfo?.jwt || "");
     const { response } = await apiEndPoint.post(`${API_ENDPOINTS.SPECIAL_ORDERS}`, { data: body });
@@ -75,6 +75,6 @@ export const createSpecialOrder = (body: IOrderCreate) => {
       dispatch(updateToast({ type: 'error', message: errorMsg, open: true}))
     }
 
-    dispatch(orderLoading({ loading: false }));
+    dispatch(orderLoading(false));
   }
 }

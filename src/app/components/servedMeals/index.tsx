@@ -2,13 +2,13 @@
 import { capitalize, getMealDate, getMealDay, sortMealsInDescOrder } from '@/lib/helpers';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { selectFeedbackList } from '@/redux/selectors/feedback';
-import { selectServedOrders } from '@/redux/selectors/menu';
+import { selectMenuLoading, selectServedOrders } from '@/redux/selectors/menu';
 import { selectUserRoleType } from '@/redux/selectors/user';
 import { fetchFeedbacks } from '@/redux/thunk/feedback';
 import { fetchMenuAndMeals } from '@/redux/thunk/menu';
 import { Meal } from '@/redux/types/menu';
 import { COOK, CUSTOMER } from '@/redux/types/user';
-import {  CheckCircleOutlined } from '@ant-design/icons';
+import {  CheckCircleOutlined, LoadingOutlined } from '@ant-design/icons';
 import Card from 'antd/es/card';
 import Descriptions from 'antd/es/descriptions';
 import Rate from 'antd/es/rate';
@@ -19,8 +19,8 @@ import Rating from '../rating';
 const ServedMeals: React.FC = () => {
   const dispatch = useAppDispatch();
   const userRole = useAppSelector(selectUserRoleType());
+  const isMenuLoading = useAppSelector(selectMenuLoading());
   const servedMeals = useAppSelector(selectServedOrders());
-  const userFeedbacks = useAppSelector(selectFeedbackList());
   
   useEffect(() => {
     dispatch(fetchMenuAndMeals("served"));
@@ -81,6 +81,10 @@ const ServedMeals: React.FC = () => {
   }
 
   const getTimeline = () => {
+    if(isMenuLoading) {
+      return <LoadingOutlined />
+    }
+
     return (
       <>
         <Timeline
