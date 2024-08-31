@@ -26,6 +26,7 @@ import Space from "antd/es/space";
 import { MenuProps } from "antd";
 import Rating from "../rating";
 import { fetchFeedbacks } from "@/redux/thunk/feedback";
+import styles from './style.module.css';
 
 export const WEEK_DAYS = [
   "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"
@@ -238,9 +239,11 @@ const UpcomingMeals: React.FC = () => {
               </List>
             </Descriptions.Item>
           </Descriptions>
-
-          {isMealProcessed(meal.id, true)}
-          <Rating meal={meal} />
+          
+          <div className={styles.mealTags}>
+            {isMealProcessed(meal.id, true)}
+            <Rating meal={meal} />
+          </div>
         </Card>
       </Col>
     ))
